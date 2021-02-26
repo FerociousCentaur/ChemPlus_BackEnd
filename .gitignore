@@ -1,0 +1,12 @@
+# Virtual Environment
+venv
+
+# Local files
+db.sqlite3
+
+# Python Cache
+__pycache__
+
+#  Deployment config
+# Contains credentials and config
+local_settings.py
