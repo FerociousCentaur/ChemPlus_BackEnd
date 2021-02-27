@@ -96,7 +96,7 @@ def Verifier(request,crypt_mail):
                 return render(request,'signupverify.html',{'error': error, 'form':form})
             else:
                 error = "OTP does not match!! Retry"
-                return render(request,'signupVerify.html',{'error':error, 'form': form})
+                return render(request,'signupverify.html',{'error':error, 'form': form})
     else:
         form = OTPVerify()
         error = 'OTP has been sent to your registered email ID.You have 15 minutes to verify!'
