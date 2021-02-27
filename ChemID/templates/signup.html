@@ -22,7 +22,7 @@
     </style>
 </head>
 <body>
-<div style="white-space:nowrap;" id="animation">
+<div style="white-space:nowrap;float:left;" id="animation">
     <a id="inmain" style="padding-left:20px;" class="navbar-brand" href="https://ches.iitm.ac.in/chemplus/2021/index.html">
         <h5 class="ml5">
         <span class="text-wrapper">
@@ -64,7 +64,7 @@
 
 <input type="submit"  class="btn btn-primary" value="Submit" id="submit">
     <br>
-    <button class="btn btn-info"> Didnt receive ChemPlus ID? </button>
+    <a class="btn btn-info" href="{% url 'resendOTP' %}"> Didnt receive ChemPlus ID? </a>
 
   </form>
 
