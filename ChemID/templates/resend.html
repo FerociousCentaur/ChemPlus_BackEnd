@@ -3,19 +3,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-    <h1>{{error}}</h1>
- <form action="" method="post">
-    {% csrf_token %}
-    <table>
-    {{ form }}
-
-    </table><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <title>Verify</title>
     <link rel="stylesheet" href="{% static '/css/signup.css' %}">
@@ -73,6 +60,7 @@
     {{ form }}
 
     </table>
+     <br>
      <input type="submit"  class="btn btn-primary" value="Verify" id="submit">
 
   </form>
