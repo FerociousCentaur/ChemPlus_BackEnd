@@ -1,18 +1,117 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
     <title>Verify</title>
+    <link rel="stylesheet" href="{% static '/css/signup.css' %}">
+    <link rel="stylesheet" href="{% static '/css/chesanimation.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Gotu' rel='stylesheet'>
+    <style>
+        body{
+    position: relative;
+    background-image: url("{% static '/img/bg3.png' %}") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    text-align: center;
+  }
+    </style>
 </head>
 <body>
-<h1>{{error}}</h1>
+<div style="white-space:nowrap;" id="animation">
+    <a id="inmain" style="padding-left:20px;" class="navbar-brand" href="https://ches.iitm.ac.in/chemplus/2021/index.html">
+        <h5 class="ml5">
+        <span class="text-wrapper">
+          <span class="line line1"></span>
+          <span class="letters letters-left">ChES</span>
+          <span class="letters ampersand">&nbsp;|</span>
+          <span class="letters letters-right">IITM</span>
+          <span class="line line2"></span>
+        </span>
+      </h5>
+    </a>
+  </div>
+<br>
+<br>
+<br>
+  <div class="positioning">
+    <p class="centred">
+      Verify
+    </p>
+    <hr class="small">
+</div>
+<div class="row">
+  <div class="col-lg-6" style="margin:0 auto;">
+    <div class="alert alert-success alert-dismissible text-center" >
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>{{error}}</strong>
+    </div>
+  </div>
+</div>
+
+  <div class="col-lg-4 col-sm-8 bordered d-flex justify-content-center" style="text-align:center;margin:0 auto;top: 30px;margin-bottom: 100px;">
  <form action="" method="post">
     {% csrf_token %}
     <table>
+        <tr><th></th><td><h5 class="fs-title">Enter Your OTP</h5></td></tr>
     {{ form }}
 
     </table>
-    <input type="submit" value="Submit">
+     <input type="submit"  class="btn btn-primary" value="Verify" id="submit">
+
   </form>
+  </div>
+
+
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script>
+    anime.timeline({loop: true})
+.add({
+targets: '.ml5 .line',
+opacity: [0.5,1],
+scaleX: [0, 1],
+easing: "easeInOutExpo",
+duration: 700
+}).add({
+targets: '.ml5 .line',
+duration: 600,
+easing: "easeOutExpo",
+translateY: (el, i) => (-0.625 + 0.625*2*i) + "em"
+}).add({
+targets: '.ml5 .ampersand',
+opacity: [0,1],
+scaleY: [0.5, 1],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=600'
+}).add({
+targets: '.ml5 .letters-left',
+opacity: [0,1],
+translateX: ["0.2em", 0],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=300'
+}).add({
+targets: '.ml5 .letters-right',
+opacity: [0,1],
+translateX: ["-0.2em", 0],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=600'
+}).add({
+targets: '.ml5',
+opacity: 0,
+duration: 1000,
+easing: "easeOutExpo",
+delay: 1000
+});
+</script>
 </body>
 </html>
