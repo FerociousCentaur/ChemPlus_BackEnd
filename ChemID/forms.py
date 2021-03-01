@@ -22,13 +22,13 @@ class RegisterForm1(forms.Form):
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
     alt_phone_number = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Alt. Ph. Number'})) #= forms.ChoiceField(label='',
                    # initial="Gender", choices=gender, required=True)
-    address = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    address = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Address'}))
     zipcode = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Pincode'}))
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if Spectator.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email already exists!!! Try with another email.")
+            raise forms.ValidationError("Email already exists!!! Click on \n'Didn't Receive the Chemplus ID'\n to receive the ID again.")
         # elif (Spectator.objects.filter(email=email).exists()) and (not Spectator.objects.get(email=email).verified):
         #     Spectator.objects.filter(email=email).delete()
         return email
