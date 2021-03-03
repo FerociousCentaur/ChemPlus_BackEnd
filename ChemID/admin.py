@@ -31,7 +31,7 @@ class BroadCast_Email_Admin(admin.ModelAdmin):
     model = BroadCast_Email
 
     def submit_email(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
-        list_email_user = [ p.email for p in Spectator.objects.all() ] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
         obj_selected = obj[0]
         EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
     submit_email.short_description = 'Submit BroadCast (1 Select Only)'

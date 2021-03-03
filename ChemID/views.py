@@ -91,7 +91,10 @@ def Verifier(request,crypt_mail):
                 name = usr_details.first_name
                 subject = ['ChemPlus ID', uid]
                 recipient_list = [email]
-                message = ''
+                usr_name = usr_details.first_name+usr_details.last_name
+                college = usr_details.college
+                number = usr_details.number
+                message = [usr_name,email,college,number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
                 return render(request,'signupverify.html',{'error': error, 'form':form})
             else:
@@ -122,9 +125,13 @@ def resendOTP(request):
                 name = usr_details.first_name
                 subject = ['ChemPlus ID', uid]
                 recipient_list = [email]
-                message = ''
+                usr_name = usr_details.first_name + usr_details.last_name
+                college = usr_details.college
+                number = usr_details.number
+                message = [usr_name, email, college, number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
-                return HttpResponse('ChemPlus ID has been sent to your mail ID')
+                error = "ChemPlus ID has been sent to your mail ID"
+                return render(request, 'resend.html', {'error': error, 'form': form})
     else:
         form = reaskEmail()
     error = 'We will try our best to help you out! Enter the mail ID with which you registered'
