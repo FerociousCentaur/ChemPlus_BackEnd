@@ -8,44 +8,55 @@ from .choices import college, department, program, year, gender, state
 
 class RegisterForm(forms.Form):
     f_name = forms.CharField(label='',
-                    widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
+                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True)
     l_name = forms.CharField(label='',
-                    widget=forms.TextInput(attrs={'placeholder': 'Last Name'}), required=True)
+                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True)
     gen = forms.ChoiceField(label='',
-                    initial="Gender", choices=gender, required=True)
+                    initial="Gender", choices=gender, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 
-
+#widget=forms.TextInput(attrs={'class': "form-control"})
 class RegisterForm1(forms.Form):
     email = forms.EmailField(label='',
-                    widget=forms.TextInput(attrs={'placeholder': 'Email'}), required=True)
-    mob_number = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Ph. Number'}))#forms.CharField(label='',
+                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True)
+    mob_number = forms.IntegerField(label='', max_value=999999999999999, required=True, widget=forms.NumberInput(attrs={'placeholder': '', 'class': "form-control"}))#forms.CharField(label='',
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
-    alt_phone_number = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Alt. Ph. Number'})) #= forms.ChoiceField(label='',
+    alt_phone_number = forms.IntegerField(label='', max_value=999999999999999, required=False, widget=forms.NumberInput(attrs={'placeholder': '(Optional)', 'class': "form-control"})) #= forms.ChoiceField(label='',
                    # initial="Gender", choices=gender, required=True)
-    address = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': 'Address'}))
-    zipcode = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Pincode'}))
+    address = forms.CharField(label='', required=False, widget=forms.TextInput(attrs={'placeholder': '(Optional)', 'class': "form-control"}))
+    zipcode = forms.IntegerField(label='',max_value=9999999, required=True, widget=forms.NumberInput(attrs={'placeholder': '', 'class': "form-control"}))
+    #zipcode = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Pincode', 'class': "form-control"}))
 
     def clean_email(self):
         email = self.cleaned_data['email']
         if Spectator.objects.filter(email=email).exists():
-            raise forms.ValidationError("Email already exists!!! Click on \n'Didn't Receive the Chemplus ID'\n to receive the ID again.")
+            raise forms.ValidationError("Looks like you have already registered!!! Click on 'Didn't Receive the Chemplus ID' to receive the ID again.")
         # elif (Spectator.objects.filter(email=email).exists()) and (not Spectator.objects.get(email=email).verified):
         #     Spectator.objects.filter(email=email).delete()
         return email
 class RegisterForm2(forms.Form):
-    stat = forms.ChoiceField(label='', choices=state, required=True)
-    college = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'College'}))#forms.CharField(label='',
+    stat = forms.ChoiceField(label='', choices=state, required=True ,widget=forms.Select(attrs={'class': "custom-select"}))
+    college = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))#forms.CharField(label='',
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
-    departmen = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Department'}))
-    progra = forms.ChoiceField(label='', choices=program, required=True)
-    yea = forms.ChoiceField(label='', choices=year, required=True)
+    departmen = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
+    progra = forms.ChoiceField(label='', choices=program, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
+    yea = forms.ChoiceField(label='', choices=year, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 
 class OTPVerify(forms.Form):
-    email_otp = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Email OTP'}))
+    email_otp = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
 
 class reaskEmail(forms.Form):
-    email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': 'Email ID'}))
+    email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
 
+
+class ProgramRegister(forms.Form):
+    chem_id = forms.CharField(max_length=30, required=True)
+    OPTIONS = (("","Programs"),
+            ("a", "A"),
+            ("b", "B"),
+        )
+    programs = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+                                         choices=OPTIONS, required=True)
+    amount = forms.CharField(disabled=True)
 # class RegisterForm(forms.ModelForm):
 #
 #     class Meta:

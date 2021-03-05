@@ -464,7 +464,7 @@ college = (('', 'College'), ('Bhoj Reddy Engineering College For Women, Hyderaba
 
 #todo just a separator
 
-department = (('', 'Department'), ('Aeronautical Engineering', 'Aeronautical Engineering'),
+department = (('', '--------'), ('Aeronautical Engineering', 'Aeronautical Engineering'),
  ('Applied Mathematics', 'Applied Mathematics'),
  ('Automobile Engineering', 'Automobile Engineering'),
  ('Biochemical Engineering', 'Biochemical Engineering'),
@@ -505,22 +505,22 @@ department = (('', 'Department'), ('Aeronautical Engineering', 'Aeronautical Eng
  ('Plastic and Polymer Engineering', 'Plastic and Polymer Engineering'),
  ('Polymer and Surface Engineering', 'Polymer and Surface Engineering'))
 
-program = (('', 'Program'), ('B.Tech.', 'B.Tech.'),
+program = (('', '-------'), ('B.Tech.', 'B.Tech.'),
  ('M.Tech.', 'M.Tech.'),
  ('B.Sc.', 'B.Sc.'),
  ('M.Sc.', 'M.Sc.'),
  ('PhD', 'PhD'),
  ('B.E.', 'B.E.'))
 
-year = (('', 'Year'), ('First', 'First'),
+year = (('', '----'), ('First', 'First'),
  ('Second', 'Second'),
  ('Third', 'Third'),
  ('Fourth', 'Fourth'),
  ('Fifth', 'Fifth'))
 
-gender =(('', 'Gender'),
+gender =(('', '------'),
         ('Male', 'Male'),
         ('Female', 'Female'),
     )
 
-state = (('', ' State'), ('Andaman and Nicobar Islands', 'Andaman and Nicobar Islands'), ('Andhra Pradesh', 'Andhra Pradesh'), ('Arunachal Pradesh', 'Arunachal Pradesh'), ('Assam', 'Assam'), ('Bihar', 'Bihar'), ('Chandigarh', 'Chandigarh'), ('Chhattisgarh', 'Chhattisgarh'), ('Dadra and Nagar Haveli', 'Dadra and Nagar Haveli'), ('Daman and Diu', 'Daman and Diu'), ('National Capital Territory of Delhi union territory', 'National Capital Territory of Delhi union territory'), ('Goa', 'Goa'), ('Gujarat', 'Gujarat'), ('Haryana', 'Haryana'), ('Himachal Pradesh', 'Himachal Pradesh'), ('Jammu and Kashmir', 'Jammu and Kashmir'), ('Jharkhand', 'Jharkhand'), ('Karnataka', 'Karnataka'), ('Kerala', 'Kerala'), ('Lakshadweep', 'Lakshadweep'), ('Madhya Pradesh', 'Madhya Pradesh'), ('Maharashtra', 'Maharashtra'), ('Manipur', 'Manipur'), ('Meghalaya', 'Meghalaya'), ('Mizoram', 'Mizoram'), ('Nagaland', 'Nagaland'), ('Odisha', 'Odisha'), ('Pondicherry', 'Pondicherry'), ('Punjab', 'Punjab'), ('Rajasthan', 'Rajasthan'), ('Sikkim', 'Sikkim'), ('Tamil Nadu', 'Tamil Nadu'), ('Telangana', 'Telangana'), ('Tripura', 'Tripura'), ('Uttar Pradesh', 'Uttar Pradesh'), ('Uttarakhand', 'Uttarakhand'), ('West Bengal', 'West Bengal'))
+state = (('', ' -----'), ('Andaman and Nicobar Islands', 'Andaman and Nicobar Islands'), ('Andhra Pradesh', 'Andhra Pradesh'), ('Arunachal Pradesh', 'Arunachal Pradesh'), ('Assam', 'Assam'), ('Bihar', 'Bihar'), ('Chandigarh', 'Chandigarh'), ('Chhattisgarh', 'Chhattisgarh'), ('Dadra and Nagar Haveli', 'Dadra and Nagar Haveli'), ('Daman and Diu', 'Daman and Diu'), ('National Capital Territory of Delhi union territory', 'National Capital Territory of Delhi union territory'), ('Goa', 'Goa'), ('Gujarat', 'Gujarat'), ('Haryana', 'Haryana'), ('Himachal Pradesh', 'Himachal Pradesh'), ('Jammu and Kashmir', 'Jammu and Kashmir'), ('Jharkhand', 'Jharkhand'), ('Karnataka', 'Karnataka'), ('Kerala', 'Kerala'), ('Lakshadweep', 'Lakshadweep'), ('Madhya Pradesh', 'Madhya Pradesh'), ('Maharashtra', 'Maharashtra'), ('Manipur', 'Manipur'), ('Meghalaya', 'Meghalaya'), ('Mizoram', 'Mizoram'), ('Nagaland', 'Nagaland'), ('Odisha', 'Odisha'), ('Pondicherry', 'Pondicherry'), ('Punjab', 'Punjab'), ('Rajasthan', 'Rajasthan'), ('Sikkim', 'Sikkim'), ('Tamil Nadu', 'Tamil Nadu'), ('Telangana', 'Telangana'), ('Tripura', 'Tripura'), ('Uttar Pradesh', 'Uttar Pradesh'), ('Uttarakhand', 'Uttarakhand'), ('West Bengal', 'West Bengal'))

@@ -60,7 +60,7 @@ def signup(response):
         form1 = RegisterForm1()
         form2 = RegisterForm2()
 
-    return render(response, 'signup.html', {"form": form, "form1": form1, "form2": form2})
+    return render(response, 'signup2.html', {"form": form, "form1": form1, "form2": form2})#signup.html
 
 def mailer(receiver,name,path,sub,msg):
 
@@ -91,19 +91,19 @@ def Verifier(request,crypt_mail):
                 name = usr_details.first_name
                 subject = ['ChemPlus ID', uid]
                 recipient_list = [email]
-                usr_name = usr_details.first_name+usr_details.last_name
+                usr_name = usr_details.first_name+' '+usr_details.last_name
                 college = usr_details.college
-                number = usr_details.number
+                number = usr_details.mob_number
                 message = [usr_name,email,college,number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
-                return render(request,'signupverify.html',{'error': error, 'form':form})
+                return render(request,'signupverify2.html',{'error': error, 'form':form, 'typ': 'success'})
             else:
                 error = "OTP does not match!! Retry"
-                return render(request,'signupverify.html',{'error':error, 'form': form})
+                return render(request,'signupverify2.html',{'error':error, 'form': form, 'typ': 'warning'})
     else:
         form = OTPVerify()
-        error = 'OTP has been sent to your registered email ID.You have 15 minutes to verify!'
-    return render(request,'signupverify.html', {'error': error, 'form': form})
+        error = 'OTP has been sent to your registered email ID.Please enter the OTP to verify your email ID'
+    return render(request,'signupverify2.html', {'error': error, 'form': form, 'typ': 'success'})
 
 def resendOTP(request):
     if request.method == "POST":
@@ -113,7 +113,7 @@ def resendOTP(request):
             usr_details = Spectator.objects.filter(email=email)
             if not usr_details:
                 error = "Looks like you have not signed up! Try signing up again"
-                return render(request, 'resend.html', {'error': error, 'form': form})
+                return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'info'})
             usr_details = usr_details[0]
             if not usr_details.verified:
                 name = usr_details.first_name
@@ -125,15 +125,15 @@ def resendOTP(request):
                 name = usr_details.first_name
                 subject = ['ChemPlus ID', uid]
                 recipient_list = [email]
-                usr_name = usr_details.first_name + usr_details.last_name
+                usr_name = usr_details.first_name + ' '+usr_details.last_name
                 college = usr_details.college
-                number = usr_details.number
+                number = usr_details.mob_number
                 message = [usr_name, email, college, number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
                 error = "ChemPlus ID has been sent to your mail ID"
-                return render(request, 'resend.html', {'error': error, 'form': form})
+                return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'success'})
     else:
         form = reaskEmail()
     error = 'We will try our best to help you out! Enter the mail ID with which you registered'
-    return render(request, 'resend.html', {'error': error, 'form': form})
+    return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'primary'})
 

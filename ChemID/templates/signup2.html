@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static '/img/ches.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <title>ChemPlusID | IITM</title>
+    <link rel="stylesheet" href="{% static '/css/index1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Gotu' rel='stylesheet'>
+  <link rel="stylesheet" href="{% static '/css/chesanimation.css' %}">
+
+  <style>
+    .centred{
+    text-align: center;
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: 'Gotu';
+  }
+.positioning{
+    position: relative;
+    top:20px;
+    left: 45%;
+    transform: translate(-45%, 0);
+    color: #d3e0ea;
+ }
+.small{max-width:100px;margin:15px auto;border-width:4px;border-color:#d3e0ea;position:relative;bottom:15px;}
+ body{
+    position: relative;
+    background-image: url("{% static '/img/bg3.png' %}") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+  </style>
+
+</head>
+<body>
+<div style="white-space:nowrap;float:left;" id="animation">
+    <a id="inmain" style="padding-left:20px;" class="navbar-brand" href="https://ches.iitm.ac.in/chemplus/2021/index.html">
+        <h5 class="ml5">
+        <span class="text-wrapper">
+          <span class="line line1"></span>
+          <span class="letters letters-left">ChES</span>
+          <span class="letters ampersand">&nbsp;|</span>
+          <span class="letters letters-right">AIChE</span>
+          <span class="line line2"></span>
+        </span>
+      </h5>
+    </a>
+  </div>
+<br>
+<br>
+<br>
+  <div class="positioning">
+    <p class="centred">
+      Get ChemPlus ID
+    </p>
+    <hr class="small">
+</div>
+<form action="" method="post">
+  {% csrf_token %}
+
+  {% if form1.errors %}
+  <div class="alert alert-danger">
+    <ul>
+    {% for field in form1 %}
+        {% for error in field.errors %}
+
+                <li><strong>{{ error|escape }}</strong></li>
+
+        {% endfor %}
+    {% endfor %}
+    {% for error in form1.non_field_errors %}
+
+            <li><strong>{{ error|escape }}</strong></li>
+
+    {% endfor %}
+      </ul>
+    </div>
+{% endif %}
+
+   {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+    {% for field in form %}
+        {% for error in field.errors %}
+
+                <li><strong>{{ error|escape }}</strong></li>
+
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+
+            <li><strong>{{ error|escape }}</strong></li>
+
+    {% endfor %}
+      </ul>
+    </div>
+{% endif %}
+
+
+   {% if form2.errors %}
+  <div class="alert alert-danger">
+    <ul>
+    {% for field in form2 %}
+        {% for error in field.errors %}
+
+                <li><strong>{{ error|escape }}</strong></li>
+
+        {% endfor %}
+    {% endfor %}
+    {% for error in form2.non_field_errors %}
+
+            <li><strong>{{ error|escape }}</strong></li>
+
+    {% endfor %}
+      </ul>
+    </div>
+{% endif %}
+
+  <div class="form-row">
+    <div class="col-md-5 mb-3">
+      <label for="id_f_name">First name</label>
+      {{form.f_name}}
+
+    </div>
+    <div class="col-md-5 mb-3">
+      <label for="id_l_name">Last name</label>
+      {{form.l_name}}
+
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="id_gen">Gender</label>
+      {{form.gen}}
+
+    </div>
+  </div>
+
+
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label for="id_email">Email</label>
+      {{form1.email}}
+
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="id_mob_number">Number</label>
+      {{form1.mob_number}}
+
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="id_alt_phone_number">Alt. Number</label>
+      {{form1.alt_phone_number}}
+
+    </div>
+  </div>
+  <div class="form-row">
+    <div class="col-md-5 mb-3">
+      <label for="id_college">College</label>
+      {{form2.college}}
+
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="id_departmen">Department</label>
+      {{form2.departmen}}
+
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="id_progra">Program</label>
+      {{form2.progra}}
+
+    </div>
+    <div class="col-md-2 mb-3">
+      <label for="id_yea">Year</label>
+      {{form2.yea}}
+
+    </div>
+  </div>
+
+
+
+
+  <div class="form-row">
+    <div class="col-md-3 mb-3">
+      <label for="id_stat">State</label>
+      {{form2.stat}}
+
+    </div>
+    <div class="col-md-6 mb-3">
+      <label for="id_address">Address</label>
+      {{form1.address}}
+    </div>
+    <div class="col-md-3 mb-3">
+      <label for="id_zipcode">Zip</label>
+      {{form1.zipcode}}
+
+    </div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="">
+      <input type="submit"  class="btn btn-primary" value="Register" id="submit">
+    </div>
+<!--    <div class="col-md-5 mb-3">-->
+
+<!--    </div>-->
+    <div class="">
+        <a class="btn btn-info" href="{% url 'resendOTP' %}"> Didnt receive ChemPlus ID? </a>
+    </div>
+  </div>
+
+
+</form>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.8.6/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<script>
+    anime.timeline({loop: true})
+.add({
+targets: '.ml5 .line',
+opacity: [0.5,1],
+scaleX: [0, 1],
+easing: "easeInOutExpo",
+duration: 700
+}).add({
+targets: '.ml5 .line',
+duration: 600,
+easing: "easeOutExpo",
+translateY: (el, i) => (-0.625 + 0.625*2*i) + "em"
+}).add({
+targets: '.ml5 .ampersand',
+opacity: [0,1],
+scaleY: [0.5, 1],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=600'
+}).add({
+targets: '.ml5 .letters-left',
+opacity: [0,1],
+translateX: ["0.2em", 0],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=300'
+}).add({
+targets: '.ml5 .letters-right',
+opacity: [0,1],
+translateX: ["-0.2em", 0],
+easing: "easeOutExpo",
+duration: 600,
+offset: '-=600'
+}).add({
+targets: '.ml5',
+opacity: 0,
+duration: 1000,
+easing: "easeOutExpo",
+delay: 1000
+});
+</script>
+
+</html>

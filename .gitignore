@@ -10,4 +10,5 @@ __pycache__
 #  Deployment config
 # Contains credentials and config
 local_settings.py
+trash
 staticfiles
