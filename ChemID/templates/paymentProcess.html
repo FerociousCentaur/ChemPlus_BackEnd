@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static '/img/ches.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>ChemPlusID | IITM</title>
+    <style>.spinner-border{
+  width: 100px;
+  height:100px;
+  /* Enter your own width above */
+ }</style>
+</head>
+<body>
+<div  class="container" style="text-align:center">
+<h1 class="mt-5" style="font-size:4vw;">Please do not refresh.</h1>
+<h1 class="mt-2" style="font-size:4vw;">We are processing your request...</h1>
+    <b><div class="spinner-border text-muted mt-5"></div></b>
+</div>
+<form action="{{url}}" method="post" name="billdesk">
+    <input name="msg" type="hidden" value="{{msg}}">
+</form>
+</body>
+<script>
+
+  document.billdesk.submit();
+</script>
+</html>
+
+
+
+
+
+

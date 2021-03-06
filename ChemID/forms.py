@@ -83,7 +83,7 @@ class programRegister(forms.Form):
         )
     programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
                                          choices=OPTIONS, required=True)
-    amount = forms.CharField(initial=0, disabled=True, required=False,max_length=30,widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
+    amount = forms.CharField( disabled=True, required=False,max_length=30,widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
 # class RegisterForm(forms.ModelForm):
 #
 #     class Meta:

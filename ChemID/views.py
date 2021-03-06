@@ -161,7 +161,7 @@ def payment_request(request):
                 usr_details = usr_details[0]
                 while True:
                     oid = get_order_id(chem_id)
-                    print(oid)
+                    #print(oid)
                     trans = Transaction.objects.filter(order_id=oid)
                     if not trans:
                         break
@@ -196,9 +196,16 @@ def payment_request(request):
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_MATLAB
-                msg = GetMessage.message(oid, amount)
-                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices)
-                requests.POST(settings.BILL_URL, msg=msg)
+                #print(amount)
+                msg = GetMessage().message(oid, amount)
+                #print(msg)
+                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=msg)
+                return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
+                #print(settings.BILL_URL)
+                #resp = requests.post(settings.BILL_URL, data=msg)
+                #print(resp.status_code)
+                #print(resp.content)
+                #print(resp.text)
             else:
                 #print('not found')
                 error = "Given Chemplus ID doesn't exist OR the entered Chemplus ID and email ID don't match with the data stored in Database"
@@ -233,6 +240,7 @@ def findNthOccur(string, ch, N):
 def handleResponse(request):
     if request.method=='POST':
         response = request.POST.msg
+        #print(response)
         valid_payment = Checksum.verify_checksum(response)
         pipeind1 = findNthOccur(response, '|', 1)
         pipeind2 = findNthOccur(response, '|', 2)
@@ -241,12 +249,13 @@ def handleResponse(request):
         pipeind5 = findNthOccur(response, '|', 5)
         pipeind13 = findNthOccur(response, '|', 13)
         pipeind14 = findNthOccur(response, '|', 14)
+        mid = response[:pipeind1]
         oid = response[pipeind1+1:pipeind2]
         txnid = response[pipeind2+1:pipeind3]
         amnt = response[pipeind4+1:pipeind5]
         tstat = response[pipeind13+1:pipeind14]
 
-        if valid_payment:
+        if valid_payment and mid == settings.MID:
             transac = Transaction.objects.filter(order_id=oid)
             if transac:
                 transac = transac[0]
@@ -274,7 +283,7 @@ def handleResponse(request):
                     transac.was_success = False
                 elif tstat != '0300':
                     transac.status = "FAILED"
-                transac.log = response
+                transac.log += response
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
                 return render('request', 'afterPayment.html', {'error': msgs, 'typ':'danger'})
@@ -286,7 +295,7 @@ def handleResponse(request):
                 transac = transac[0]
                 transac.txn_id = txnid
                 transac.status = 'CHECKSUM verification failed'
-                transac.log = response
+                transac.log += response
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
                 return render('request', 'afterPayment.html', {'error': msgs, 'typ': 'success'})
