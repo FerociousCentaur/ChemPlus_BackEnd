@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import Spectator,BroadCast_Email
+from .models import Spectator, BroadCast_Email, Transaction
 # Register your models here.
 from django.db import models
 admin.site.register(Spectator)
+admin.site.register(Transaction)
 #admin.site.register(Product)
 from django.contrib import admin
 from django.utils.safestring import mark_safe
@@ -37,7 +38,42 @@ class BroadCast_Email_Admin(admin.ModelAdmin):
     submit_email.short_description = 'Submit BroadCast (1 Select Only)'
     submit_email.allow_tags = True
 
-    actions = [ 'submit_email' ]
+    def submit_email_allevents(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_all_events=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        obj_selected = obj[0]
+        EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
+    submit_email_allevents.short_description = 'Submit BroadCast All events'
+    submit_email_allevents.allow_tags = True
+
+    def submit_email_ansys(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_ansys=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        obj_selected = obj[0]
+        EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
+    submit_email_ansys.short_description = 'Submit BroadCast Ansys'
+    submit_email_ansys.allow_tags = True
+
+    def submit_email_python(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_python=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        obj_selected = obj[0]
+        EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
+    submit_email_python.short_description = 'Submit BroadCast Python'
+    submit_email_python.allow_tags = True
+
+    def submit_email_scilab(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_scilab=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        obj_selected = obj[0]
+        EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
+    submit_email_scilab.short_description = 'Submit BroadCast SciLab'
+    submit_email_scilab.allow_tags = True
+
+    def submit_email_matlab(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
+        list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_matlab=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
+        obj_selected = obj[0]
+        EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
+    submit_email_matlab.short_description = 'Submit BroadCast Matlab'
+    submit_email_matlab.allow_tags = True
+
+    actions = [ 'submit_email', 'submit_email_allevents', 'submit_email_ansys', 'submit_email_python', 'submit_email_scilab', 'submit_email_matlab']
 
     list_display = ("subject", "created")
     search_fields = ['subject',]

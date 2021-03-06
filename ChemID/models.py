@@ -43,7 +43,13 @@ class Spectator(models.Model):
     email_otp = models.PositiveIntegerField(null=True,blank=True)
     verified = models.BooleanField(default=False)
 
-    publishing_date = models.DateTimeField(default=timezone.now, blank=True,editable=False)
+    publishing_date = models.DateTimeField(default=timezone.now, blank=True)
+
+    is_all_events = models.BooleanField(default=False)
+    is_python = models.BooleanField(default=False)
+    is_ansys = models.BooleanField(default=False)
+    is_scilab = models.BooleanField(default=False)
+    is_matlab = models.BooleanField(default=False)
 
 
 
@@ -71,3 +77,19 @@ class BroadCast_Email(models.Model):
         verbose_name = "BroadCast Email to all Member"
         verbose_name_plural = "BroadCast Email"
 
+# added intance.verified to create chem_id
+
+class Transaction(models.Model):
+    owner = models.ForeignKey(Spectator, on_delete=models.DO_NOTHING, blank=False,null=True)
+    order_id = models.CharField(max_length=30, blank=False, null=True)
+    txn_id = models.CharField(max_length=50, blank=True, null=True)
+    email = models.EmailField(max_length=30, blank=True, null=True)
+    amount_initiated = models.FloatField(blank=True, null=True)
+    was_success = models.BooleanField(default=False)
+    status = models.CharField(max_length=30, blank=True, null=True)
+    log = models.TextField(null=True, blank=True)
+    registered_for = models.TextField(null=True, blank=True)
+    txn_date = models.DateTimeField(default=timezone.now, blank=True)
+
+    def __str__(self):
+        return f'{self.owner.chem_id} [{self.order_id}]'

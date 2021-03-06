@@ -1,14 +1,21 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login,authenticate
-from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail
+from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail, programRegister
 from django.conf import settings
 from django.core.mail import send_mail
-from .models import Spectator
+from .models import Spectator, Transaction
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .OTPSender import send_otp
 import cryptocode
+import requests
+from django.views.decorators.csrf import csrf_exempt
+#todo pip install requests
+import uuid
+from .billdesk.checksum import Checksum
+from .billdesk.gen_message import GetMessage
+
 
 import threading
 # Create your views here.
@@ -83,7 +90,7 @@ def Verifier(request,crypt_mail):
             e_otp = form.cleaned_data['email_otp']
             usr_details = Spectator.objects.filter(email=email)[0]
             email_otp = usr_details.email_otp
-            if int(e_otp) == email_otp:
+            if e_otp == str(email_otp):
                 usr_details.verified = True
                 usr_details.save()
                 error = 'Successfully Verified!!! You will receive your CHEM+ ID on your Email ID'
@@ -137,3 +144,153 @@ def resendOTP(request):
     error = 'We will try our best to help you out! Enter the mail ID with which you registered'
     return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'primary'})
 
+
+def get_order_id(chem_id):
+    return chem_id+str(uuid.uuid4())[:8]
+
+# payment handling
+
+def payment_request(request):
+    if request.method == 'POST':
+        form = programRegister(request.POST)
+        if form.is_valid():
+            amount = 0
+            chem_id = form.cleaned_data['chem_id']
+            usr_details = Spectator.objects.filter(chem_id=chem_id)
+            if usr_details and usr_details[0].email == form.cleaned_data['email']:
+                usr_details = usr_details[0]
+                while True:
+                    oid = get_order_id(chem_id)
+                    print(oid)
+                    trans = Transaction.objects.filter(order_id=oid)
+                    if not trans:
+                        break
+                choices = form.cleaned_data['programs']
+                if "Python" in choices and "SciLab" in choices:
+                    error = "Register either for Python or for SciLab."
+                    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                #print(choices)
+                for i in choices:
+                    if i=='All events pass':
+                        if usr_details.is_all_events:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount+=settings.AMT_ALL_EVENTS
+                    elif i=='Ansys':
+                        if usr_details.is_ansys:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount+=settings.AMT_PYTHON
+                    elif i=='Python':
+                        if usr_details.is_python:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount+=settings.AMT_ANSYS
+                    elif i=='SciLab':
+                        if usr_details.is_all_events:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount+=settings.AMT_SCILAB
+                    elif i=='Matlab':
+                        if usr_details.is_all_events:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.AMT_MATLAB
+                msg = GetMessage.message(oid, amount)
+                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices)
+                requests.POST(settings.BILL_URL, msg=msg)
+            else:
+                #print('not found')
+                error = "Given Chemplus ID doesn't exist OR the entered Chemplus ID and email ID don't match with the data stored in Database"
+                return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'danger'})
+        error = ''
+        return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})
+    form = programRegister()
+    error = ''
+    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})
+
+
+def findNthOccur(string, ch, N):
+    occur = 0;
+
+    # Loop to find the Nth
+    # occurence of the character
+    for i in range(len(string)):
+        if (string[i] == ch):
+            occur += 1;
+
+        if (occur == N):
+            return i;
+
+    return -1;
+
+
+#findnth('foobarfobar akfjfoobar afskjdf foobar', 'foobar', 2)
+
+
+
+@csrf_exempt
+def handleResponse(request):
+    if request.method=='POST':
+        response = request.POST.msg
+        valid_payment = Checksum.verify_checksum(response)
+        pipeind1 = findNthOccur(response, '|', 1)
+        pipeind2 = findNthOccur(response, '|', 2)
+        pipeind3 = findNthOccur(response, '|', 3)
+        pipeind4 = findNthOccur(response, '|', 4)
+        pipeind5 = findNthOccur(response, '|', 5)
+        pipeind13 = findNthOccur(response, '|', 13)
+        pipeind14 = findNthOccur(response, '|', 14)
+        oid = response[pipeind1+1:pipeind2]
+        txnid = response[pipeind2+1:pipeind3]
+        amnt = response[pipeind4+1:pipeind5]
+        tstat = response[pipeind13+1:pipeind14]
+
+        if valid_payment:
+            transac = Transaction.objects.filter(order_id=oid)
+            if transac:
+                transac = transac[0]
+                transac.txn_id = txnid
+                if tstat == '0300' and transac.amount_initiated==float(amnt):
+                    transac.status = 'SUCCESS'
+                    chem_id = transac.owner.chem_id
+                    reg_for = eval(transac.registered_for)
+                    usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
+                    for i in reg_for:
+                        if i == 'All events pass':
+                            usr_details.is_all_events = True
+                        elif i == 'Ansys':
+                            usr_details.is_ansys = True
+                        elif i == 'Python':
+                            usr_details.is_python = True
+                        elif i == 'SciLab':
+                            usr_details.is_scilab = True
+                        elif i == 'Matlab':
+                            usr_details.is_matlab = True
+                    usr_details.save()
+                    transac.was_success = True
+                elif tstat == '0300' and transac.amount_initiated!=amnt:
+                    transac.status = 'AMOUNT Tampered'
+                    transac.was_success = False
+                elif tstat != '0300':
+                    transac.status = "FAILED"
+                transac.log = response
+                transac.save()
+                msgs = 'Payment declined! Looked liked someone tried tampering your payment'
+                return render('request', 'afterPayment.html', {'error': msgs, 'typ':'danger'})
+            else:
+                return HttpResponse('Bad Request')
+        else:
+            transac = Transaction.objects.filter(order_id=oid)
+            if transac:
+                transac = transac[0]
+                transac.txn_id = txnid
+                transac.status = 'CHECKSUM verification failed'
+                transac.log = response
+                transac.save()
+                msgs = 'Payment declined! Looked liked someone tried tampering your payment'
+                return render('request', 'afterPayment.html', {'error': msgs, 'typ': 'success'})
+            else:
+                return HttpResponse('Bad Request')
+    else:
+        return HttpResponse('Bad Request')

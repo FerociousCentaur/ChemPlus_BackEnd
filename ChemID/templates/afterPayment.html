@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static '/img/ches.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <title>ChemPlusID | IITM</title>
+    <link rel="stylesheet" href="{% static '/css/index1.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Gotu' rel='stylesheet'>
+  <link rel="stylesheet" href="{% static '/css/chesanimation.css' %}">
+
+  <style>
+    .centred{
+    text-align: center;
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: 'Gotu';
+  }
+.positioning{
+    position: relative;
+    top:20px;
+    left: 45%;
+    transform: translate(-45%, 0);
+    color: #d3e0ea;
+ }
+.small{max-width:100px;margin:15px auto;border-width:4px;border-color:#d3e0ea;position:relative;bottom:15px;}
+ body{
+    position: relative;
+    background-image: url("{% static '/img/bg3.png' %}") !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+  }
+  </style>
+
+</head>
+<body>
+{% ifequal typ "danger" %}
+<div class="alert alert-danger">
+    <ul>
+    {% for i in error %}
+
+                <li><strong>{{ error }}</strong></li>
+
+    {% endfor %}
+
+      </ul>
+    </div>
+{% endifequal %}
+
+{% ifequal typ "success" %}
+<div class="alert alert-success">
+    <ul>
+    {% for i in error %}
+
+                <li><strong>{{ error }}</strong></li>
+
+    {% endfor %}
+
+      </ul>
+    </div>
+{% endifequal %}
+</body>
+</html>
