@@ -17,7 +17,7 @@ class Checksum():
     def verify_checksum(self,message):
         l_index = message.rindex('|')
         to_be_verified = message[l_index+1:]
-        my_checksum = self.get_checksum(message[:l_index+1]+settings.CHECKSUM_KEY)
+        my_checksum = self.get_checksum(message[:l_index])#+settings.CHECKSUM_KEY
         if my_checksum == to_be_verified:
             return True
         else:

@@ -180,26 +180,30 @@ def payment_request(request):
                         if usr_details.is_ansys:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
-                        amount+=settings.AMT_PYTHON
+                        amount+=settings.AMT_ANSYS
                     elif i=='Python':
                         if usr_details.is_python:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
-                        amount+=settings.AMT_ANSYS
+                        if usr_details.is_scilab:
+                            error = f"You have already registered for SciLab and you can register either for python or scilab.Contact us if you have any issues"
+                            return render(request, 'paymentspage.html',
+                                          {'error': error, 'form': form, 'typ': 'warning'})
+                        amount+=settings.AMT_PYTHON
                     elif i=='SciLab':
-                        if usr_details.is_all_events:
+                        if usr_details.is_scilab:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount+=settings.AMT_SCILAB
                     elif i=='Matlab':
-                        if usr_details.is_all_events:
+                        if usr_details.is_matlab:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_MATLAB
                 #print(amount)
                 msg = GetMessage().message(oid, amount)
                 #print(msg)
-                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=msg)
+                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
                 return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
                 #print(settings.BILL_URL)
                 #resp = requests.post(settings.BILL_URL, data=msg)
@@ -278,15 +282,21 @@ def handleResponse(request):
                             usr_details.is_matlab = True
                     usr_details.save()
                     transac.was_success = True
+                    typ = 'success'
+                    msgs = 'Payment Succesfull'
                 elif tstat == '0300' and transac.amount_initiated!=amnt:
                     transac.status = 'AMOUNT Tampered'
                     transac.was_success = False
+                    msgs = 'Payment declined! Looked liked someone tried tampering your payment'
+                    typ='danger'
                 elif tstat != '0300':
                     transac.status = "FAILED"
+                    msgs = 'Payment Failed'
+                    typ = 'danger'
                 transac.log += response
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render('request', 'afterPayment.html', {'error': msgs, 'typ':'danger'})
+                return render('request', 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
         else:
@@ -295,10 +305,10 @@ def handleResponse(request):
                 transac = transac[0]
                 transac.txn_id = txnid
                 transac.status = 'CHECKSUM verification failed'
-                transac.log += response
+                transac.log += str([response])
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render('request', 'afterPayment.html', {'error': msgs, 'typ': 'success'})
+                return render('request', 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
     else:
