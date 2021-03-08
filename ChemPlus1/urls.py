@@ -25,5 +25,6 @@ urlpatterns = [
     path('resend/', views.resendOTP, name='resendOTP'),
     path('payments/', views.payment_request, name='paymentpage'),
     path('handleResponse/', views.handleResponse, name='handleResponse'),
+    path('s2sresponse/', views.server_to_server, name='s2sresponse'),
 
 ]

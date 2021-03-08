@@ -38,29 +38,56 @@
 </head>
 <body>
 {% ifequal typ "danger" %}
-<div class="alert alert-danger">
-    <ul>
-    {% for i in error %}
+<div class="alert alert-danger mt-5" style="text-align: center;">
 
-                <li><strong>{{ error }}</strong></li>
+            <div class="" style="color:rgba(206, 23, 69, 0.692);font-size:100px;">&#9863;</div>
+                {{error.0}}
+            <ul>
+                <li><strong>Your transaction mode is {{ mode }}</strong></li>
+                <li><strong>Your transaction reference number is {{ txnid }}</strong></li>
+                <li><strong>Your order list contains {% for i in error.2 %} {{i}}, {% endfor %}</strong></li>
+                <li><strong>Amount: {{amnt}}</strong></li>
+                <li><strong>Date and time of transaction: {{date}}</strong></li>
+        </ul>
 
-    {% endfor %}
-
-      </ul>
     </div>
 {% endifequal %}
 
 {% ifequal typ "success" %}
-<div class="alert alert-success">
-    <ul>
-    {% for i in error %}
+<div class="alert alert-success mt-5" style="text-align: center;">
 
-                <li><strong>{{ error }}</strong></li>
+            <div class="" style="color:rgba(44, 194, 69, 0.692);font-size:100px;">&#9786;</div>
 
-    {% endfor %}
+                {{error.0}}
+            <ul>
+                <li><strong>Your transaction mode is {{ mode }}</strong></li>
+            <li><strong>Your transaction reference number is {{ txnid }}</strong></li>
+            <li><strong>Your order list contains {% for i in error.2 %} {{i}}, {% endfor %}</strong></li>
+            <li><strong>Amount: {{amnt}}</strong></li>
+                <li><strong>Date and time of transaction: {{date}}</strong></li>
 
-      </ul>
+              </ul>
+
     </div>
 {% endifequal %}
+
+{% ifequal typ "info" %}
+<div class="alert alert-info mt-5" style="text-align: center;">
+
+                    <div class="" style="color:rgba(44, 184, 194, 0.692);font-size:100px;">&#9863;</div>
+
+
+                        {{error.0}}
+                     <ul>
+                         <li><strong>Your transaction mode is {{ mode }}</strong></li>
+                   <li><strong>Your transaction reference number is {{ txnid }}</strong></li>
+                   <li><strong>Your order list contains {% for i in error.2 %} {{i}}, {% endfor %}</strong></li>
+                         <li><strong>Amount: {{amnt}}</strong></li>
+                         <li><strong>Date and time of transaction: {{date}}</strong></li>
+                      </ul>
+
+            </div>
+{% endifequal %}
+<div class="text-center mb-5"><img src="{% static '/img/ches.png' %}" width="100px"></div>
 </body>
 </html>

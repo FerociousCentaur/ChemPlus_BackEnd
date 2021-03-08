@@ -252,6 +252,103 @@ def handleResponse(request):
         pipeind3 = findNthOccur(response, '|', 3)
         pipeind4 = findNthOccur(response, '|', 4)
         pipeind5 = findNthOccur(response, '|', 5)
+        pipeind9 = findNthOccur(response, '|', 9)
+        pipeind10 = findNthOccur(response, '|', 10)
+        pipeind12 = findNthOccur(response, '|', 13)
+        pipeind13 = findNthOccur(response, '|', 14)
+        pipeind14 = findNthOccur(response, '|', 15)
+        mid = response[:pipeind1]
+        oid = response[pipeind1+1:pipeind2]
+        txnid = response[pipeind2+1:pipeind3]
+        amnt = response[pipeind4+1:pipeind5]
+        tstat = response[pipeind13+1:pipeind14]
+        dnt = response[pipeind12 + 1:pipeind13]
+        mode = response[pipeind9 + 1:pipeind10]
+
+
+        if valid_payment and mid == settings.MID:
+            transac = Transaction.objects.filter(order_id=oid)
+            if transac:
+                transac = transac[0]
+                #transac.txn_id = txnid
+                if tstat == '0300' and transac.amount_initiated==float(amnt):
+                    #transac.status = 'SUCCESS'
+                    chem_id = transac.owner.chem_id
+                    reg_for = eval(transac.registered_for)
+                    usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
+                    # for i in reg_for:
+                    #     if i == 'All events pass':
+                    #         usr_details.is_all_events = True
+                    #     elif i == 'Ansys':
+                    #         usr_details.is_ansys = True
+                    #     elif i == 'Python':
+                    #         usr_details.is_python = True
+                    #     elif i == 'SciLab':
+                    #         usr_details.is_scilab = True
+                    #     elif i == 'Matlab':
+                    #         usr_details.is_matlab = True
+                    #usr_details.save()
+                    #transac.was_success = True
+                    typ = 'success'
+                    msgs = ['Success','Payment Succesfull', reg_for]
+                elif tstat == '0300' and transac.amount_initiated!=amnt:
+                    reg_for = eval(transac.registered_for)
+                    #transac.status = 'AMOUNT Tampered'
+                    #transac.was_success = False
+                    msgs = ['Failed', 'Payment declined! Looked liked someone tried tampering your payment',reg_for]
+                    typ='danger'
+                elif tstat == '0002':
+                    #transac.status = "WAITING"
+                    reg_for = eval(transac.registered_for)
+                    msgs = ['Failed', 'Billdesk is waiting for the trasaction status from your bank. Will update you as soon as we have any response',reg_for]
+                    typ = 'info'
+                elif tstat != '0300':
+                    if tstat == '0399':
+                        sm = 'Invalid Authentication at Bank'
+                    elif tstat == 'NA':
+                        sm = 'Invalid Input in the Request Message'
+                    elif tstat =='0001':
+                        sm = 'error at billdesk'
+                    else:
+                        sm = 'Payment Failed'
+                    #transac.status = "FAILED"
+                    reg_for = eval(transac.registered_for)
+                    msgs = ['Failed', sm, reg_for]
+                    typ = 'danger'
+                transac.log += str([response])
+                transac.save()
+                return render(request, 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid, 'date':dnt, 'amnt': amnt, 'mode':mode})
+            else:
+                return HttpResponse('Bad Request')
+        else:
+            transac = Transaction.objects.filter(order_id=oid)
+            if transac:
+                transac = transac[0]
+                #transac.txn_id = txnid
+                #transac.status = 'CHECKSUM verification failed'
+                #transac.log += str([response])
+                reg_for = eval(transac.registered_for)
+                #transac.save()
+                msgs = ['Failed','Payment declined! Looked liked someone tried tampering your payment', reg_for]
+                return render(request, 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid, 'date':dnt, 'amnt': amnt, 'mode':mode})
+            else:
+                return HttpResponse('Bad Request')
+    else:
+        return HttpResponse('Bad Request')
+
+
+@csrf_exempt
+def server_to_server(request):
+    if request.method=='POST':
+        response = request.POST
+        response = response['msg'].strip('()')
+        #print(response)
+        valid_payment = Checksum().verify_checksum(response)
+        pipeind1 = findNthOccur(response, '|', 1)
+        pipeind2 = findNthOccur(response, '|', 2)
+        pipeind3 = findNthOccur(response, '|', 3)
+        pipeind4 = findNthOccur(response, '|', 4)
+        pipeind5 = findNthOccur(response, '|', 5)
         pipeind13 = findNthOccur(response, '|', 14)
         pipeind14 = findNthOccur(response, '|', 15)
         mid = response[:pipeind1]
@@ -283,22 +380,28 @@ def handleResponse(request):
                             usr_details.is_matlab = True
                     usr_details.save()
                     transac.was_success = True
-                    typ = 'success'
-                    msgs = 'Payment Succesfull'
+                    # typ = 'success'
+                    # msgs = 'Payment Succesfull'
                 elif tstat == '0300' and transac.amount_initiated!=amnt:
                     transac.status = 'AMOUNT Tampered'
                     transac.was_success = False
-                    msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                    typ='danger'
-                elif tstat != '0300':
+                    # msgs = 'Payment declined! Looked liked someone tried tampering your payment'
+                    # typ='danger'
+                elif tstat != '0300' and tstat == '0002':
+                    transac.status = "WAITING"
+                    # msgs = 'BILL DESK WAITING'
+                    # typ = 'info'
+                elif tstat != '0300' and tstat == '0002':
                     transac.status = "FAILED"
-                    msgs = 'Payment Failed'
-                    typ = 'danger'
-                transac.log += response
+                    #reg_for = eval(transac.registered_for)
+                    # msgs = ['Payment Failed',reg_for]
+                    # typ = 'danger'
+                transac.log += str([response])
                 transac.save()
-                return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
+                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
             else:
-                return HttpResponse('Bad Request')
+                pass
+                #return HttpResponse('Bad Request')
         else:
             transac = Transaction.objects.filter(order_id=oid)
             if transac:
@@ -307,9 +410,32 @@ def handleResponse(request):
                 transac.status = 'CHECKSUM verification failed'
                 transac.log += str([response])
                 transac.save()
-                msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})
+                #msgs = 'Payment declined! Looked liked someone tried tampering your payment'
+                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})
             else:
-                return HttpResponse('Bad Request')
-    else:
-        return HttpResponse('Bad Request')
+                pass
+                #return HttpResponse('Bad Request')
+
+def scheduled_check():
+    waiting = Transaction.objects.filter(status = 'WAITING')
+    if waiting:
+        for wait in waiting:
+            msg = GetMessage().schedule_msg(wait.order_id)
+            response = requests.post(settings.CONF_BILL_URL, data={'msg': msg})
+            response = response.text
+            valid_payment = Checksum().verify_checksum(response)
+            pipeind1 = findNthOccur(response, '|', 1)
+            pipeind2 = findNthOccur(response, '|', 2)
+            pipeind3 = findNthOccur(response, '|', 3)
+            pipeind31 = findNthOccur(response, '|', 31)
+            pipeind32 = findNthOccur(response, '|', 32)
+            mid = response[pipeind1+1:pipeind2]
+            oid = response[pipeind2 + 1:pipeind3]
+            status = response[pipeind31 + 1:pipeind32]
+            if valid_payment:
+                if mid == settings.MID and status == 'Y':
+                    wait.status = 'Late SUCCESS'
+                    wait.save()
+
+
+
