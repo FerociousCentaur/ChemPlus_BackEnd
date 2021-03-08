@@ -297,7 +297,7 @@ def handleResponse(request):
                 transac.log += response
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render('request', 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid})
+                return render(request, 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
         else:
@@ -309,7 +309,7 @@ def handleResponse(request):
                 transac.log += str([response])
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render('request', 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid})
+                return render(request, 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
     else:
