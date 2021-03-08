@@ -246,7 +246,7 @@ def handleResponse(request):
         response = request.POST
         response = response['msg'].strip('()')
         #print(response)
-        valid_payment = Checksum.verify_checksum(response)
+        valid_payment = Checksum().verify_checksum(response)
         pipeind1 = findNthOccur(response, '|', 1)
         pipeind2 = findNthOccur(response, '|', 2)
         pipeind3 = findNthOccur(response, '|', 3)
