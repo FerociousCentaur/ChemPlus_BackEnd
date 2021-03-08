@@ -243,7 +243,8 @@ def findNthOccur(string, ch, N):
 @csrf_exempt
 def handleResponse(request):
     if request.method=='POST':
-        response = request.POST.msg
+        response = request.POST
+        response = response['msg']
         #print(response)
         valid_payment = Checksum.verify_checksum(response)
         pipeind1 = findNthOccur(response, '|', 1)
