@@ -244,7 +244,7 @@ def findNthOccur(string, ch, N):
 def handleResponse(request):
     if request.method=='POST':
         response = request.POST
-        response = response['msg']
+        response = response['msg'].strip('()')
         #print(response)
         valid_payment = Checksum.verify_checksum(response)
         pipeind1 = findNthOccur(response, '|', 1)
