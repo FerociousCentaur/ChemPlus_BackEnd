@@ -222,18 +222,18 @@ def payment_request(request):
 
 
 def findNthOccur(string, ch, N):
-    occur = 0;
+    occur = 0
 
     # Loop to find the Nth
     # occurence of the character
     for i in range(len(string)):
         if (string[i] == ch):
-            occur += 1;
+            occur += 1
 
         if (occur == N):
-            return i;
+            return i
 
-    return -1;
+    return -1
 
 
 #findnth('foobarfobar akfjfoobar afskjdf foobar', 'foobar', 2)
@@ -416,26 +416,7 @@ def server_to_server(request):
                 pass
                 #return HttpResponse('Bad Request')
 
-def scheduled_check():
-    waiting = Transaction.objects.filter(status = 'WAITING')
-    if waiting:
-        for wait in waiting:
-            msg = GetMessage().schedule_msg(wait.order_id)
-            response = requests.post(settings.CONF_BILL_URL, data={'msg': msg})
-            response = response.text
-            valid_payment = Checksum().verify_checksum(response)
-            pipeind1 = findNthOccur(response, '|', 1)
-            pipeind2 = findNthOccur(response, '|', 2)
-            pipeind3 = findNthOccur(response, '|', 3)
-            pipeind31 = findNthOccur(response, '|', 31)
-            pipeind32 = findNthOccur(response, '|', 32)
-            mid = response[pipeind1+1:pipeind2]
-            oid = response[pipeind2 + 1:pipeind3]
-            status = response[pipeind31 + 1:pipeind32]
-            if valid_payment:
-                if mid == settings.MID and status == 'Y':
-                    wait.status = 'Late SUCCESS'
-                    wait.save()
+
 
 
 
