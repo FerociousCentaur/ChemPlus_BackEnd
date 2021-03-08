@@ -252,8 +252,8 @@ def handleResponse(request):
         pipeind3 = findNthOccur(response, '|', 3)
         pipeind4 = findNthOccur(response, '|', 4)
         pipeind5 = findNthOccur(response, '|', 5)
-        pipeind13 = findNthOccur(response, '|', 13)
-        pipeind14 = findNthOccur(response, '|', 14)
+        pipeind13 = findNthOccur(response, '|', 14)
+        pipeind14 = findNthOccur(response, '|', 15)
         mid = response[:pipeind1]
         oid = response[pipeind1+1:pipeind2]
         txnid = response[pipeind2+1:pipeind3]
@@ -296,8 +296,7 @@ def handleResponse(request):
                     typ = 'danger'
                 transac.log += response
                 transac.save()
-                msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render(request, 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid})
+                return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
         else:
@@ -309,7 +308,7 @@ def handleResponse(request):
                 transac.log += str([response])
                 transac.save()
                 msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                return render(request, 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid})
+                return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})
             else:
                 return HttpResponse('Bad Request')
     else:
