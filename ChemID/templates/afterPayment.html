@@ -43,6 +43,7 @@
             <div class="" style="color:rgba(206, 23, 69, 0.692);font-size:100px;">&#9863;</div>
                 {{error.0}}
             <ul style="list-style-type: none;">
+                <li><strong>{{error.1}}</strong></li>
                 <li><strong>Your transaction mode is {{ mode }}</strong></li>
                 <li><strong>Your transaction reference number is {{ txnid }}</strong></li>
                 <li><strong>Your order list contains {% for i in error.2 %} {{i}}, {% endfor %}</strong></li>
@@ -60,6 +61,7 @@
 
                 {{error.0}}
             <ul style="list-style-type: none;">
+                <li><strong>{{error.1}}</strong></li>
                 <li><strong>Your transaction mode is {{ mode }}</strong></li>
             <li><strong>Your transaction reference number is {{ txnid }}</strong></li>
             <li><strong>Your order list contains {% for i in error.2 %} {{i}}, {% endfor %}</strong></li>

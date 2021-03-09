@@ -159,6 +159,9 @@ def payment_request(request):
             usr_details = Spectator.objects.filter(chem_id=chem_id)
             if usr_details and usr_details[0].email == form.cleaned_data['email']:
                 usr_details = usr_details[0]
+                mail = usr_details.email
+                fname = usr_details.first_name
+                mnumber = usr_details.mob_number
                 while True:
                     oid = get_order_id(chem_id)
                     #print(oid)
@@ -201,7 +204,7 @@ def payment_request(request):
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_MATLAB
                 #print(amount)
-                msg = GetMessage().message(oid, amount)
+                msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
                 Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
                 return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
@@ -235,6 +238,27 @@ def findNthOccur(string, ch, N):
 
     return -1
 
+def get_mode(s):
+    if s == '01':
+        return 'Netbanking'
+    elif s == '02':
+        return 'Credit Card'
+    elif s == '03':
+        return 'Debit Card'
+    elif s == '04':
+        return 'Cash Card'
+    elif s == '05':
+        return 'Mobile Wallet'
+    elif s == '06':
+        return 'IMPS'
+    elif s == '07':
+        return 'Reward Points'
+    elif s == '08':
+        return 'Rupay'
+    elif s == '09':
+        return 'Others'
+    elif s == '10':
+        return 'UPI'
 
 #findnth('foobarfobar akfjfoobar afskjdf foobar', 'foobar', 2)
 
@@ -252,6 +276,8 @@ def handleResponse(request):
         pipeind3 = findNthOccur(response, '|', 3)
         pipeind4 = findNthOccur(response, '|', 4)
         pipeind5 = findNthOccur(response, '|', 5)
+        pipeind7 = findNthOccur(response, '|', 7)
+        pipeind8 = findNthOccur(response, '|', 8)
         pipeind9 = findNthOccur(response, '|', 9)
         pipeind10 = findNthOccur(response, '|', 10)
         pipeind12 = findNthOccur(response, '|', 13)
@@ -263,7 +289,9 @@ def handleResponse(request):
         amnt = response[pipeind4+1:pipeind5]
         tstat = response[pipeind13+1:pipeind14]
         dnt = response[pipeind12 + 1:pipeind13]
-        mode = response[pipeind9 + 1:pipeind10]
+        mode = response[pipeind7 + 1:pipeind8]
+        mode = get_mode(mode)
+
 
 
         if valid_payment and mid == settings.MID:
@@ -391,7 +419,7 @@ def server_to_server(request):
                     transac.status = "WAITING"
                     # msgs = 'BILL DESK WAITING'
                     # typ = 'info'
-                elif tstat != '0300' and tstat == '0002':
+                elif tstat != '0300' and tstat != '0002':
                     transac.status = "FAILED"
                     #reg_for = eval(transac.registered_for)
                     # msgs = ['Payment Failed',reg_for]

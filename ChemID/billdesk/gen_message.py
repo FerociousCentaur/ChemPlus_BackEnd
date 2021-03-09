@@ -4,8 +4,8 @@ from datetime import datetime
 
 
 class GetMessage():
-    def message(self,uniqueID,amount):
-        msg = f'{settings.MID}|{uniqueID}|NA|{amount:.2f}|NA|NA|NA|INR|NA|R|{settings.SEC_ID}|NA|NA|F|NA|NA|NA|NA|NA|NA|NA|{settings.REVERSE_URL}'
+    def message(self,uniqueID,amount, chem_id, mail, fname, mnumber):
+        msg = f'{settings.MID}|{uniqueID}|NA|{amount:.2f}|NA|NA|NA|INR|NA|R|{settings.SEC_ID}|NA|NA|F|{fname}|{chem_id}|{mail}|{mnumber}|NA|NA|NA|{settings.REVERSE_URL}'
         checksum = Checksum().get_checksum(msg)
         return msg+'|'+checksum
     def schedule_msg(self,oid):
