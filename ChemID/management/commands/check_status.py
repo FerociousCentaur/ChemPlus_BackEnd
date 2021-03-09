@@ -30,9 +30,12 @@ def scheduled_check():
     if waiting:
         for wait in waiting:
             msg = GetMessage().schedule_msg(wait.order_id)
+            #print(msg)
             response = requests.post(settings.CONF_BILL_URL, data={'msg': msg})
             response = response.text
+            #print(response)
             valid_payment = Checksum().verify_checksum(response)
+
             pipeind1 = findNthOccur(response, '|', 1)
             pipeind2 = findNthOccur(response, '|', 2)
             pipeind3 = findNthOccur(response, '|', 3)
@@ -71,6 +74,8 @@ def scheduled_check():
                                 usr_details.is_scilab = True
                             elif i == 'Matlab':
                                 usr_details.is_matlab = True
+                            elif i == 'Aspen':
+                                usr_details.is_aspen = True
                         usr_details.save()
                         wait.was_success = True
                     elif refundtstat == '0899':

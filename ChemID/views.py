@@ -203,10 +203,15 @@ def payment_request(request):
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_MATLAB
+                    elif i=='Aspen':
+                        if usr_details.is_aspen:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.AMT_ASPEN
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
-                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
+                #Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
                 return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
                 #print(settings.BILL_URL)
                 #resp = requests.post(settings.BILL_URL, data=msg)
@@ -406,6 +411,8 @@ def server_to_server(request):
                             usr_details.is_scilab = True
                         elif i == 'Matlab':
                             usr_details.is_matlab = True
+                        elif i == 'Aspen':
+                            usr_details.is_aspen = True
                     usr_details.save()
                     transac.was_success = True
                     # typ = 'success'

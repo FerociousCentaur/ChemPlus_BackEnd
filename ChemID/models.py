@@ -50,6 +50,7 @@ class Spectator(models.Model):
     is_ansys = models.BooleanField(default=False)
     is_scilab = models.BooleanField(default=False)
     is_matlab = models.BooleanField(default=False)
+    is_aspen = models.BooleanField(default=False)
 
 
 

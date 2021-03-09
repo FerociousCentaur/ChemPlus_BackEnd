@@ -80,6 +80,7 @@ class programRegister(forms.Form):
             ("Python", "Python"),
             ("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
+            ("Aspen", "Aspen"),
         )
     programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
                                          choices=OPTIONS, required=True)
