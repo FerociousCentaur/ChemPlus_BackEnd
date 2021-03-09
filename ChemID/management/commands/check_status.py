@@ -35,7 +35,7 @@ def scheduled_check():
             response = response.text
             #print(response)
             valid_payment = Checksum().verify_checksum(response)
-
+            print([msg, response, valid_payment])
             pipeind1 = findNthOccur(response, '|', 1)
             pipeind2 = findNthOccur(response, '|', 2)
             pipeind3 = findNthOccur(response, '|', 3)
