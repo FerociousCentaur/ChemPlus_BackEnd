@@ -172,6 +172,9 @@ def payment_request(request):
                 if "Python" in choices and "SciLab" in choices:
                     error = "Register either for Python or for SciLab."
                     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                elif "Python" in choices and "Ansys" in choices:
+                    error = "Register either for Python or for Ansys."
+                    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                 #print(choices)
                 for i in choices:
                     if i=='All events pass':
@@ -183,6 +186,10 @@ def payment_request(request):
                         if usr_details.is_ansys:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_python:
+                            error = f"You have already registered for Python and you can register either for python or ansys.Contact us if you have any issues"
+                            return render(request, 'paymentspage.html',
+                                          {'error': error, 'form': form, 'typ': 'warning'})
                         amount+=settings.AMT_ANSYS
                     elif i=='Python':
                         if usr_details.is_python:
@@ -192,10 +199,17 @@ def payment_request(request):
                             error = f"You have already registered for SciLab and you can register either for python or scilab.Contact us if you have any issues"
                             return render(request, 'paymentspage.html',
                                           {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_ansys:
+                            error = f"You have already registered for Ansys and you can register either for python or ansys.Contact us if you have any issues"
+                            return render(request, 'paymentspage.html',
+                                          {'error': error, 'form': form, 'typ': 'warning'})
                         amount+=settings.AMT_PYTHON
                     elif i=='SciLab':
                         if usr_details.is_scilab:
                             error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_python:
+                            error = f"You have already registered for Python and you can register either for python or scilab.Contact us if you have any issues"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                         amount+=settings.AMT_SCILAB
                     elif i=='Matlab':
@@ -211,9 +225,9 @@ def payment_request(request):
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
-                #Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
-                return HttpResponse('Coming soon')
-                #return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
+                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
+                #return HttpResponse('Coming soon')
+                return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
                 #print(settings.BILL_URL)
                 #resp = requests.post(settings.BILL_URL, data=msg)
                 #print(resp.status_code)
@@ -227,7 +241,8 @@ def payment_request(request):
         return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})
     form = programRegister()
     error = ''
-    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})
+    firsttiem = 'fs'
+    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty', 'fs':firsttiem})
 
 
 def findNthOccur(string, ch, N):
