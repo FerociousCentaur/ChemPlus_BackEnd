@@ -435,9 +435,9 @@ def server_to_server(request):
                             usr_details.is_aspen = True
                     usr_details.save()
                     transac.was_success = True
-                    sub = ['Payment Successfull', chem_id]
-                    body = [reg_for, txnid, amnt]
-                    mailer(usr_details.email, usr_details.first_name, 'Paymentmail.html', sub, body)
+                    # sub = ['Payment Successfull', chem_id]
+                    # body = [reg_for, txnid, amnt]
+                    #mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
                     # typ = 'success'
                     # msgs = 'Payment Succesfull'
                 elif tstat == '0300' and transac.amount_initiated!=amnt:
@@ -457,6 +457,13 @@ def server_to_server(request):
                 transac.log += str([response])
                 transac.s2s_date = timezone.localtime(timezone.now())
                 transac.save()
+                if transac.status == 'SUCCESS':
+                    chem_id = transac.owner.chem_id
+                    reg_for = eval(transac.registered_for)
+                    usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
+                    sub = ['Payment Successfull', chem_id]
+                    body = [reg_for, txnid, amnt]
+                    mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
                 #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
             else:
                 pass

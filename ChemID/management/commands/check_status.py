@@ -85,9 +85,16 @@ def scheduled_check():
                         wait.was_success = True
                         sub = ['Payment Successfull', chem_id]
                         body = [reg_for, txnid, amnt]
-                        mailer(usr_details.email, usr_details.first_name, 'Paymentmail.html', sub, body)
+                        #mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
                     elif refundtstat == '0899':
                         wait.status = 'Refunded thro Chargeback'
                     wait.log += str([response])
                     wait.s2s_date = timezone.localtime(timezone.now())
                     wait.save()
+                    if wait.status == 'Late SUCCESS':
+                        chem_id = wait.owner.chem_id
+                        reg_for = eval(wait.registered_for)
+                        usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
+                        sub = ['Payment Successfull', chem_id]
+                        body = [reg_for, txnid, amnt]
+                        mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
