@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chemplus IITM</title>
+</head>
+<body>
+<p style='text-align:center;font-weight:bold;font-size:20px;'>Thanks you {{Pname}}({{uid}}) for registering for {% for i in message.0 %}{{i}},{% endfor %}</p>
+  <b>Your Transaction details -</b><br>
+  <b>TxnID : {{message.1}}</b><br>
+   <b>Txn Amount : {{message.2}}</b><br>
+
+  <b><strong>Regards,</strong></b><br>
+ <b><strong>Team Chemplus</strong></b>
+<div style='font-size:50px;font-weight:bold;'><span><img width='50px' style='vertical-align:middle' src='https://ches.iitm.ac.in/chemplus/2021/images/logo.png' alt='logo'><font style='margin:10px;margin-top:20px;font-family:sans-serif;'>Chem+</font></span></div>
+
+</body>
+</html>

@@ -4,6 +4,8 @@ from ChemID.billdesk.checksum import Checksum
 import requests
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+from ChemID.views import mailer
+from django.utils import timezone
 
 class Command(BaseCommand):
     help = 'Django admin command to check the pending status of transactions'
@@ -39,6 +41,7 @@ def scheduled_check():
             pipeind1 = findNthOccur(response, '|', 1)
             pipeind2 = findNthOccur(response, '|', 2)
             pipeind3 = findNthOccur(response, '|', 3)
+            pipeind4 = findNthOccur(response, '|', 4)
             pipeind15 = findNthOccur(response, '|', 15)
             pipeind16 = findNthOccur(response, '|', 16)
             pipeind27 = findNthOccur(response, '|', 27)
@@ -47,6 +50,7 @@ def scheduled_check():
             pipeind31 = findNthOccur(response, '|', 31)
             pipeind32 = findNthOccur(response, '|', 32)
             mid = response[pipeind1+1:pipeind2]
+            txnid = response[pipeind3+1:pipeind4]
             oid = response[pipeind2 + 1:pipeind3]
             status = response[pipeind31 + 1:pipeind32]
             authstat = response[pipeind15 + 1:pipeind16]
@@ -54,6 +58,7 @@ def scheduled_check():
             amnt = response[pipeind27 + 1:pipeind28]
             if valid_payment:
                 if mid == settings.MID and authstat == '0300' and wait.amount_initiated==float(amnt):
+                    wait.txn_id = txnid
                     if refundtstat == '0699':
                         wait.status = 'Refunded'
                     elif refundtstat == '0799':
@@ -78,7 +83,11 @@ def scheduled_check():
                                 usr_details.is_aspen = True
                         usr_details.save()
                         wait.was_success = True
+                        sub = ['Payment Successfull', chem_id]
+                        body = [reg_for, txnid, amnt]
+                        mailer(usr_details.email, usr_details.first_name, 'Paymentmail.html', sub, body)
                     elif refundtstat == '0899':
                         wait.status = 'Refunded thro Chargeback'
                     wait.log += str([response])
+                    wait.s2s_date = timezone.localtime(timezone.now())
                     wait.save()

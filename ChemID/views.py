@@ -9,6 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from .OTPSender import send_otp
 import cryptocode
+from django.utils import timezone
 import requests
 from django.views.decorators.csrf import csrf_exempt
 #todo pip install requests
@@ -225,7 +226,7 @@ def payment_request(request):
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
-                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]))
+                Transaction.objects.create(owner=usr_details, order_id=oid, email=usr_details.email, amount_initiated=amount, status='PENDING', registered_for=choices, log=str([msg]), txn_date=timezone.localtime(timezone.now()))
                 #return HttpResponse('Coming soon')
                 return render(request, 'paymentProcess.html', {'msg': msg, 'url': settings.BILL_URL})
                 #print(settings.BILL_URL)
@@ -365,6 +366,7 @@ def handleResponse(request):
                     msgs = ['Failed', sm, reg_for]
                     typ = 'danger'
                 transac.log += str([response])
+                transac.ru_date = timezone.localtime(timezone.now())
                 transac.save()
                 return render(request, 'afterPayment.html', {'error': msgs, 'typ':typ, 'txnid':txnid, 'date':dnt, 'amnt': amnt, 'mode':mode})
             else:
@@ -375,9 +377,10 @@ def handleResponse(request):
                 transac = transac[0]
                 #transac.txn_id = txnid
                 #transac.status = 'CHECKSUM verification failed'
-                #transac.log += str([response])
+                transac.log += str([response])
+                transac.ru_date = timezone.localtime(timezone.now())
                 reg_for = eval(transac.registered_for)
-                #transac.save()
+                transac.save()
                 msgs = ['Failed','Payment declined! Looked liked someone tried tampering your payment', reg_for]
                 return render(request, 'afterPayment.html', {'error': msgs, 'typ': 'danger', 'txnid':txnid, 'date':dnt, 'amnt': amnt, 'mode':mode})
             else:
@@ -431,6 +434,9 @@ def server_to_server(request):
                             usr_details.is_aspen = True
                     usr_details.save()
                     transac.was_success = True
+                    sub = ['Payment Successfull', chem_id]
+                    body = [reg_for, txnid, amnt]
+                    mailer(usr_details.email, usr_details.first_name, 'Paymentmail.html', sub, body)
                     # typ = 'success'
                     # msgs = 'Payment Succesfull'
                 elif tstat == '0300' and transac.amount_initiated!=amnt:
@@ -448,6 +454,7 @@ def server_to_server(request):
                     # msgs = ['Payment Failed',reg_for]
                     # typ = 'danger'
                 transac.log += str([response])
+                transac.s2s_date = timezone.localtime(timezone.now())
                 transac.save()
                 #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
             else:
@@ -460,6 +467,7 @@ def server_to_server(request):
                 transac.txn_id = txnid
                 transac.status = 'CHECKSUM verification failed'
                 transac.log += str([response])
+                transac.s2s_date = timezone.localtime(timezone.now())
                 transac.save()
                 #msgs = 'Payment declined! Looked liked someone tried tampering your payment'
                 #return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})

@@ -91,6 +91,8 @@ class Transaction(models.Model):
     log = models.TextField(null=True, blank=True)
     registered_for = models.TextField(null=True, blank=True)
     txn_date = models.DateTimeField(default=timezone.now, blank=True)
+    ru_date = models.DateTimeField(blank=True, null=True)
+    s2s_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return f'{self.owner.chem_id} [{self.order_id}]'
