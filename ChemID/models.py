@@ -51,6 +51,7 @@ class Spectator(models.Model):
     is_scilab = models.BooleanField(default=False)
     is_matlab = models.BooleanField(default=False)
     is_aspen = models.BooleanField(default=False)
+    is_dwsim = models.BooleanField(default=False)
 
 
 

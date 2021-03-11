@@ -43,7 +43,7 @@
 <body>
 
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalCenterTitle">Current Offerings</h5>
@@ -52,13 +52,10 @@
         </button>
       </div>
       <div class="modal-body">
-          <table class="table table-bordered text-center">
-              <h5 class="text-danger text-center">NOTE : <p>Do not forget to take screenshot of successfull payment and please do fill out the google form displayed on successfull payment. </p></h5>
-              <th  colspan="2">Events</th>
-              <tr><td>ALL EVENT PASS</td><td>400/-</td></tr>
-              <th  colspan="2"><strong class="text-danger">NOTE : </strong>ALL EVENT PASS is must for participants to participate in any event mentioned in <a href="https://che.iitm.ac.in/~chemplus2021/events.html">Events page</a></th>
-          </table><br><br>
+                        <h5 class="text-danger text-center">NOTE : <p>Do not forget to take screenshot of successfull payment and please do fill out the google form displayed on successfull payment. </p></h5>
 
+          <div class="row">
+            <div class="col-md-6">
           <table class="table table-bordered text-center">
               <th  colspan="2">Workshops</th>
               <tr><td>ASPEN</td><td>4000/-</td></tr>
@@ -66,17 +63,28 @@
               <tr><td>ANSYS FLUENT</td><td>400/-</td></tr>
               <tr><td>MATLAB</td><td>400/-</td></tr>
               <tr><td>SCILAB</td><td>400/-</td></tr>
+              <tr><td>DWSIM</td><td>100/-</td></tr>
               <th  colspan="2"><strong class="text-danger">NOTE</strong>
               <tr><td colspan="2"><b> You can register for either Python or SciLab</b></td></tr>
                   <tr><td colspan="2"> <b>You can register for either Python or Ansys</b></td></tr>
+              <tr><td colspan="2"> <b>You can register for either Aspen or DWSIM</b></td></tr>
 
+          </table></div>
+              <div class="col-md-6">
+          <table class="table table-bordered text-center">
+              <th  colspan="2">Events</th>
+              <tr><td>ALL EVENT PASS</td><td>400/-</td></tr>
+              <th  colspan="2"><strong class="text-danger">NOTE : </strong>ALL EVENT PASS is must for participants to participate in any event mentioned in <a href="https://che.iitm.ac.in/~chemplus2021/events.html">Events page</a></th>
           </table>
-        <ul style="list-style-type: none;">
+                  <ul style="list-style-type: none;">
                 <li><strong>Terms and conditions</strong></li>
                 <li>*The amount is strictly non-refundable*</li>
                 <li>*The organizers hold all the rights to change the timings or cancel an event*</li>
                 <li>*Aspen : If we don't get minimum 20 registrations, the event will be cancelled and the entire amount will be refunded.*</li>
         </ul>
+              </div>
+              </div>
+
 
       </div>
       <div class="modal-footer">
@@ -217,7 +225,7 @@
 <script type='text/javascript'>
 
 
-var dict = {'All events pass':'400', 'Ansys':'400', 'Python':'600', 'SciLab':'400', 'Matlab':'400', 'Aspen':'4000'}
+var dict = {'All events pass':'400', 'Ansys':'400', 'Python':'600', 'SciLab':'400', 'Matlab':'400', 'Aspen':'4000', 'DWSIM':'100'}
 function myFunction() {
 
 var selected = [];

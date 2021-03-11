@@ -81,10 +81,12 @@ def scheduled_check():
                                 usr_details.is_matlab = True
                             elif i == 'Aspen':
                                 usr_details.is_aspen = True
+                            elif i == 'DWSIM':
+                                usr_details.is_dwsim = True
                         usr_details.save()
                         wait.was_success = True
-                        sub = ['Payment Successfull', chem_id]
-                        body = [reg_for, txnid, amnt]
+                        #sub = ['Payment successful', chem_id]
+                        #body = [reg_for, txnid, amnt]
                         #mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
                     elif refundtstat == '0899':
                         wait.status = 'Refunded thro Chargeback'
@@ -95,6 +97,6 @@ def scheduled_check():
                         chem_id = wait.owner.chem_id
                         reg_for = eval(wait.registered_for)
                         usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
-                        sub = ['Payment Successfull', chem_id]
+                        sub = ['Payment successful', chem_id]
                         body = [reg_for, txnid, amnt]
                         mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)

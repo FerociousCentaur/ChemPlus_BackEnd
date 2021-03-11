@@ -176,6 +176,9 @@ def payment_request(request):
                 elif "Python" in choices and "Ansys" in choices:
                     error = "Register either for Python or for Ansys."
                     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                elif "Aspen" in choices and "DWSIM" in choices:
+                    error = "Register either for DWSIM or for Aspen."
+                    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                 #print(choices)
                 for i in choices:
                     if i=='All events pass':
@@ -222,7 +225,20 @@ def payment_request(request):
                         if usr_details.is_aspen:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_dwsim:
+                            error = f"You have already registered for DWSIM and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                            return render(request, 'paymentspage.html',
+                                          {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_ASPEN
+                    elif i=='DWSIM':
+                        if usr_details.is_dwsim:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_aspen:
+                            error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                            return render(request, 'paymentspage.html',
+                                          {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.AMT_DWSIM
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
@@ -433,6 +449,8 @@ def server_to_server(request):
                             usr_details.is_matlab = True
                         elif i == 'Aspen':
                             usr_details.is_aspen = True
+                        elif i == 'DWSIM':
+                            usr_details.is_dwsim = True
                     usr_details.save()
                     transac.was_success = True
                     # sub = ['Payment Successfull', chem_id]
@@ -461,7 +479,7 @@ def server_to_server(request):
                     chem_id = transac.owner.chem_id
                     reg_for = eval(transac.registered_for)
                     usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
-                    sub = ['Payment Successfull', chem_id]
+                    sub = ['Payment successful', chem_id]
                     body = [reg_for, txnid, amnt]
                     mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
                 #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
