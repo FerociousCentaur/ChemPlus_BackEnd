@@ -394,6 +394,7 @@ def server_to_server(request):
     if request.method=='POST':
         response = request.POST
         response = response['msg'].strip('()')
+        response = response.strip('\n')
         #print(response)
         valid_payment = Checksum().verify_checksum(response)
         pipeind1 = findNthOccur(response, '|', 1)
