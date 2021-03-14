@@ -29,6 +29,7 @@ def send_otp(email, name, check):
     else:
         usr = Spectator.objects.get(email=email[0])
         otp = usr.email_otp
+        otp = f"{otp:06d}"
     html_content = render_to_string('otp.html', {'name': name, 'otp': otp, 'message': msg})  # render with dynamic value
     text_content = strip_tags(html_content)  # Strip the html tag. So people can see the pure text at least.
 
