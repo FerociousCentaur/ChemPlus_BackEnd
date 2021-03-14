@@ -91,7 +91,7 @@ def Verifier(request,crypt_mail):
             e_otp = form.cleaned_data['email_otp']
             usr_details = Spectator.objects.filter(email=email)[0]
             email_otp = usr_details.email_otp
-            if e_otp == str(email_otp):
+            if e_otp == f"{email_otp:06d}":
                 usr_details.verified = True
                 usr_details.save()
                 error = 'Successfully Verified!!! You will receive your CHEM+ ID on your Email ID'
