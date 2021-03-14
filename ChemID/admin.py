@@ -77,15 +77,15 @@ class BroadCast_Email_Admin(admin.ModelAdmin):
         list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_aspen=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
         obj_selected = obj[0]
         EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
-    submit_email_matlab.short_description = 'Submit BroadCast Aspen'
-    submit_email_matlab.allow_tags = True
+    submit_email_aspen.short_description = 'Submit BroadCast Aspen'
+    submit_email_aspen.allow_tags = True
 
     def submit_email_dwsim(self, request, obj): #`obj` is queryset, so there we only use first selection, exacly obj[0]
         list_email_user = [ p.email for p in Spectator.objects.filter(verified=True, is_dwsim=True)] #: if p.email != settings.EMAIL_HOST_USER   #this for exception
         obj_selected = obj[0]
         EmailThread(obj_selected.subject, mark_safe(obj_selected.message), list_email_user).start()
-    submit_email_matlab.short_description = 'Submit BroadCast DWSIM'
-    submit_email_matlab.allow_tags = True
+    submit_email_dwsim.short_description = 'Submit BroadCast DWSIM'
+    submit_email_dwsim.allow_tags = True
 
     actions = [ 'submit_email', 'submit_email_allevents', 'submit_email_ansys', 'submit_email_python', 'submit_email_scilab', 'submit_email_matlab', 'submit_email_aspen', 'submit_email_dwsim']
 
