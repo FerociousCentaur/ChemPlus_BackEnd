@@ -10,7 +10,7 @@ from .models import Spectator
 def generateOTP():
     # Declare a digits variable
     # which stores all digits
-    digits = "0123456789"
+    digits = "123456789"
     OTP = ""
 
     # length of password can be chaged
