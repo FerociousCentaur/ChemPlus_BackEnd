@@ -510,7 +510,9 @@ program = (('', '-------'), ('B.Tech.', 'B.Tech.'),
  ('B.Sc.', 'B.Sc.'),
  ('M.Sc.', 'M.Sc.'),
  ('PhD', 'PhD'),
- ('B.E.', 'B.E.'))
+ ('B.E.', 'B.E.'),
+  ('RA', 'RA'),
+  ('PostDoc', 'PostDoc'))
 
 year = (('', '----'), ('First', 'First'),
  ('Second', 'Second'),
