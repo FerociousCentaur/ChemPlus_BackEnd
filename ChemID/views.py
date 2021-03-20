@@ -176,9 +176,9 @@ def payment_request(request):
                 elif "Python" in choices and "Ansys" in choices:
                     error = "Register either for Python or for Ansys."
                     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
-                elif "Aspen" in choices and "DWSIM" in choices:
-                    error = "Register either for DWSIM or for Aspen."
-                    return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                # elif "Aspen" in choices and "DWSIM" in choices:
+                #     error = "Register either for DWSIM or for Aspen."
+                #     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
                 #print(choices)
                 for i in choices:
                     if i=='All events pass':
@@ -225,19 +225,19 @@ def payment_request(request):
                         if usr_details.is_aspen:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
-                        if usr_details.is_dwsim:
-                            error = f"You have already registered for DWSIM and you can register either for DWSIM or Aspen.Contact us if you have any issues"
-                            return render(request, 'paymentspage.html',
-                                          {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_dwsim:
+                        #     error = f"You have already registered for DWSIM and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_ASPEN
                     elif i=='DWSIM':
                         if usr_details.is_dwsim:
                             error = f"You have already registered for {i}. We don't charge twice"
                             return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
-                        if usr_details.is_aspen:
-                            error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
-                            return render(request, 'paymentspage.html',
-                                          {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_DWSIM
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
