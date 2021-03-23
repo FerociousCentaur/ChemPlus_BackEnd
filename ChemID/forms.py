@@ -78,7 +78,7 @@ class programRegister(forms.Form):
             ("All events pass", "All events pass"),
             ("Ansys", "Ansys"),
             ("Python", "Python"),
-            ("SciLab", "SciLab"),
+            #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
             ("Aspen", "Aspen"),
             ("DWSIM", "DWSIM"),
