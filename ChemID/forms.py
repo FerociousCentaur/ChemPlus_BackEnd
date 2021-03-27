@@ -76,8 +76,8 @@ class programRegister(forms.Form):
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
             ("All events pass", "All events pass"),
-            ("Ansys", "Ansys"),
-            ("Python", "Python"),
+            # ("Ansys", "Ansys"),
+            # ("Python", "Python"),
             #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
             ("Aspen", "Aspen"),
