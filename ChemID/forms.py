@@ -75,7 +75,7 @@ class programRegister(forms.Form):
     chem_id = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
-            ("All events pass", "All events pass"),
+            #("All events pass", "All events pass"),
             # ("Ansys", "Ansys"),
             # ("Python", "Python"),
             #("SciLab", "SciLab"),
