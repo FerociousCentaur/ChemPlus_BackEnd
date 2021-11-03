@@ -52,8 +52,9 @@ class Spectator(models.Model):
     is_matlab = models.BooleanField(default=False)
     is_aspen = models.BooleanField(default=False)
     is_dwsim = models.BooleanField(default=False)
-
-
+    is_workshop=models.BooleanField(default=False)
+    ######
+    is_iit_madras=models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.first_name} [{self.chem_id}]'
@@ -65,7 +66,17 @@ class Spectator(models.Model):
 def set_person_id(sender, instance, created, **kwargs):
      if created:
          instance.chem_id = "CHES21%04d" % instance.id
+         instance.is_iit_madras = is_iitm(instance.email)
          instance.save()
+
+####
+def is_iitm(email):
+    for i in range(0,len(email)):
+        if(email[i]=='@'):
+            if email[i+1:len(email)]=="smail.iitm.ac.in":
+                return True
+            return False
+    return False
 
 class BroadCast_Email(models.Model):
     subject = models.CharField(max_length=200)

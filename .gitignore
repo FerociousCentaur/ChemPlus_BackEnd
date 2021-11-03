@@ -1,6 +1,6 @@
 # Virtual Environment
 venv
-
+newenv
 # Local files
 db.sqlite3
 
