@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 import uuid
 from .billdesk.checksum import Checksum
 from .billdesk.gen_message import GetMessage
-
+from django.http import JsonResponse
 
 import threading
 # Create your views here.
@@ -146,6 +146,32 @@ def resendOTP(request):
     return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'primary'})
 
 
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def checkiitm(request):
+    if request.is_ajax and request.method == "POST":
+        email = request.POST.get('email', None)
+        cid = request.POST.get('chem_id', None)
+        user = Spectator.objects.filter(chem_id=cid)
+
+        if user and user[0].email==email:
+            if user[0].is_iit_madras:
+                reply = settings.AMT_WORKSHOP_IITM
+            else:
+                reply = settings.AMT_WORKSHOP_NOIITM
+
+        else:
+            reply = -1
+        print(len(user))
+
+        data = {
+            'status': reply
+        }
+        return JsonResponse(data)
+
+
+
 def get_order_id(chem_id):
     return chem_id+str(uuid.uuid4())[:8]
 
@@ -169,7 +195,8 @@ def payment_request(request):
                     trans = Transaction.objects.filter(order_id=oid)
                     if not trans:
                         break
-                choices = form.cleaned_data['programs']
+                choices = ['workshop_prog'] #form.cleaned_data['workshop_prog']
+                print(choices,'choice')
                 if "Python" in choices and "SciLab" in choices:
                     error = "Register either for Python or for SciLab."
                     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
@@ -239,6 +266,19 @@ def payment_request(request):
                         #     return render(request, 'paymentspage.html',
                         #                   {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_DWSIM
+
+                    elif i=='workshop_prog':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_iit_madras:
+                            amount += settings.AMT_WORKSHOP_IITM
+                        else:
+                            amount += settings.AMT_WORKSHOP_NOIITM
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
@@ -451,6 +491,8 @@ def server_to_server(request):
                             usr_details.is_aspen = True
                         elif i == 'DWSIM':
                             usr_details.is_dwsim = True
+                        elif i== 'workshop_prog':
+                            usr_details.is_workshop = True
                     usr_details.save()
                     transac.was_success = True
                     # sub = ['Payment Successfull', chem_id]

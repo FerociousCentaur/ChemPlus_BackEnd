@@ -83,8 +83,10 @@ class programRegister(forms.Form):
             ("Aspen", "Aspen"),
             #("DWSIM", "DWSIM"),
         )
-    programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
-                                         choices=OPTIONS, required=True)
+    # programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
+    #                                     choices=OPTIONS, required=True)
+    workshop_prog = forms.CharField(disabled=True, required=False, max_length=30,
+                             widget=forms.TextInput(attrs={'placeholder': 'Python/Data science workshop', 'class': "form-control",'value': 'workshop_prog'}))
     amount = forms.CharField( disabled=True, required=False,max_length=30,widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
 # class RegisterForm(forms.ModelForm):
 #
