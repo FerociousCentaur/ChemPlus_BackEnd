@@ -231,12 +231,12 @@
 {% endifequal %}
 <script type='text/javascript'>
 $("#id_email").keyup(function(){
-    document.getElementById('payandconfirm').innerHTML == "Confirm";
+    document.getElementById('payandconfirm').innerHTML = "Confirm";
     document.getElementById("payandconfirm").className = "btn btn-primary";
   });
 
 $("#id_chem_id").keyup(function(){
-    document.getElementById('payandconfirm').innerHTML == "Confirm";
+    document.getElementById('payandconfirm').innerHTML = "Confirm";
     document.getElementById("payandconfirm").className = "btn btn-primary";
   });
 
@@ -264,18 +264,7 @@ var amount = 0;
   document.getElementById('id_amount').value = amount;
 }
 
-<!--$("#id_email").on('change keyup paste', function () {-->
-<!--    ApplyFilter();-->
-<!--});-->
-<!--$("#id_chem_id").on('change keyup paste', function () {-->
-<!--    ApplyFilter();-->
-<!--});-->
 
-<!--function ApplyFilter() {-->
-<!--    if(document.getElementById('payandconfirm').innerHTML == "Pay"){-->
-<!--    document.getElementById('payandconfirm').innerHTML == "Confirm";-->
-<!--    }-->
-<!--}-->
 
 
 
