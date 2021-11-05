@@ -25,7 +25,7 @@ SECRET_KEY = 'b&!hsphvhj9emup*-a6-0knfe^t6rl8c$)+x%iazvcyc^--&mj'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['chemplus2021.org','www.chemplus2021.org','127.0.0.1']
 
 
 # Application definition

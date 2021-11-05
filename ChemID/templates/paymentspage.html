@@ -124,7 +124,7 @@
 
 
 {% ifequal typ "danger" %}
-<div class="row">
+<div class="row mydanger">
   <div class="col-lg-6" style="margin:0 auto;">
 <div class="alert alert-danger alert-dismissible text-center" ><!--    alert-dismissible-->
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -137,7 +137,7 @@
 {% endifequal %}
 
 {% ifequal typ "warning" %}
-<div class="row">
+<div class="row mydanger">
   <div class="col-lg-6" style="margin:0 auto;">
 <div class="alert alert-warning alert-dismissible text-center" ><!--    alert-dismissible-->
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -230,6 +230,23 @@
 </script>
 {% endifequal %}
 <script type='text/javascript'>
+$("#id_email").keyup(function(){
+    document.getElementById('payandconfirm').innerHTML == "Confirm";
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+  });
+
+$("#id_chem_id").keyup(function(){
+    document.getElementById('payandconfirm').innerHTML == "Confirm";
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+  });
+
+
+if ($(".mydanger")[0]){
+    document.getElementById("payandconfirm").className = "btn btn-danger";
+} else {
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+}
+
 
 
 var dict = {'All events pass':'400', 'Ansys':'400', 'Python':'600', 'SciLab':'400', 'Matlab':'400', 'Aspen':'4000', 'DWSIM':'100'}
@@ -263,6 +280,7 @@ var amount = 0;
 
 
 function myfunc(){
+console.log('clicked');
 button_html = document.getElementById('payandconfirm').innerHTML;
 if(button_html==="Pay"){
 document.paymentform.submit();
@@ -286,6 +304,25 @@ $.ajax({
             if(reply!=-1){
             document.getElementById('id_amount').value = reply;
             document.getElementById('payandconfirm').innerHTML = "Pay";
+            document.getElementById("payandconfirm").className = "btn btn-success";
+            $(".mydanger").remove();
+            }
+            else{
+            var isMobileVersion = document.getElementsByClassName('alert alert-danger alert-dismissible text-center');
+            if (isMobileVersion.length == 0) {
+                error = "Given Chemplus ID doesn't exist OR the entered Chemplus ID and email ID don't match with the data stored in Database"
+
+            let html_str = "<div class='row mydanger'><div class='col-lg-6' style='margin:0 auto;'><div class='alert alert-danger alert-dismissible text-center' ><!--    alert-dismissible--><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>"+error+"</strong><p><a href="+"{% url 'resendOTP' %}"+"> Click Here</a> if you forgot your correct details.</p><br><p><a href="+"{% url 'signup' %}"+"> Click Here</a> to Sign UP</p></div></div></div>";
+            console.log(html_str);
+            $(html_str).insertAfter(".positioning");
+            document.getElementById("payandconfirm").className = "btn btn-danger";
+            }
+            else{
+            document.getElementById("payandconfirm").className = "btn btn-danger";
+            }
+
+
+
             }
           }
         }
