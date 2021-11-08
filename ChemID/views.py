@@ -28,6 +28,9 @@ import threading
 
 from django.contrib.auth.decorators import login_required
 
+def homepage(request):
+    return render(request, 'explore.html')
+
 @login_required
 def download_data(request, program):
     program = eval(program)
@@ -181,10 +184,10 @@ def Verifier(request,crypt_mail):
             if e_otp == f"{email_otp:06d}":
                 usr_details.verified = True
                 usr_details.save()
-                error = 'Successfully Verified!!! You will receive your CHEM+ ID on your Email ID'
+                error = 'Successfully Verified!!! You will receive your CHES ID on your Email ID'
                 uid = usr_details.chem_id
                 name = usr_details.first_name
-                subject = ['ChemPlus ID', uid]
+                subject = ['Ches ID', uid]
                 recipient_list = [email]
                 usr_name = usr_details.first_name+' '+usr_details.last_name
                 college = usr_details.college
@@ -218,14 +221,14 @@ def resendOTP(request):
             elif usr_details.verified:
                 uid = usr_details.chem_id
                 name = usr_details.first_name
-                subject = ['ChemPlus ID', uid]
+                subject = ['Ches ID', uid]
                 recipient_list = [email]
                 usr_name = usr_details.first_name + ' '+usr_details.last_name
                 college = usr_details.college
                 number = usr_details.mob_number
                 message = [usr_name, email, college, number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
-                error = "ChemPlus ID has been sent to your mail ID"
+                error = "Ches ID has been sent to your mail ID"
                 return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'success'})
     else:
         form = reaskEmail()
@@ -379,7 +382,7 @@ def payment_request(request):
                 #print(resp.text)
             else:
                 #print('not found')
-                error = "Given Chemplus ID doesn't exist OR the entered Chemplus ID and email ID don't match with the data stored in Database"
+                error = "Given Ches ID doesn't exist OR the entered Ches ID and email ID don't match with the data stored in Database"
                 return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'danger'})
         error = ''
         return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})

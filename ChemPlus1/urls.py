@@ -26,6 +26,7 @@ urlpatterns = [
     path('downloaddata/<str:program>/', views.download_data, name='download'),
     path('checkiitm/', views.checkiitm, name='checkiitm'),
     path('', views.signup),
+    path('homepage/', views.homepage,name='home'),
     path('signupverify/<path:crypt_mail>', views.Verifier),
     path('resend/', views.resendOTP, name='resendOTP'),
     path('payments/', views.payment_request, name='paymentpage'),
