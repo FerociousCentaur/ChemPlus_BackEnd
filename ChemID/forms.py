@@ -9,6 +9,23 @@ from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 import re
 
+class workshop_field(forms.Form):
+    OPTIONS = (
+        ("All", "All(Paid and Non Paid)"),
+        # ("Ansys", "Ansys"),
+        # ("Python", "Python"),
+        # ("SciLab", "SciLab"),
+        #("Matlab", "Matlab"),
+        #("Aspen", "Aspen"),
+        # ("DWSIM", "DWSIM"),
+        ('Crash Course', 'Crash Course')
+    )
+    program = forms.ChoiceField(label='', choices=OPTIONS, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
+
+class loginform(forms.Form):
+    username = forms.CharField(max_length=40)
+    password = forms.CharField(widget=forms.PasswordInput())
+
 def validate_field(value):
     if not re.match(r'^[A-Za-z0-9_ ,.@-]+$', value):
         raise ValidationError(

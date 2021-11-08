@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login,authenticate
-from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail, programRegister
+from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail, programRegister, loginform, workshop_field
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import Spectator, Transaction
@@ -17,12 +17,99 @@ import uuid
 from .billdesk.checksum import Checksum
 from .billdesk.gen_message import GetMessage
 from django.http import JsonResponse
-
+from django.contrib.auth import login, authenticate, logout
+import pandas as pd
+import os
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http import StreamingHttpResponse
 import threading
 # Create your views here.
 
+from django.contrib.auth.decorators import login_required
+
+@login_required
+def download_data(request, program):
+    program = eval(program)
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    print(base_dir)
+    #return HttpResponse('Hi')
+    for i in program:
+        querystring = False
+        if i == 'AllNP':
+            querystring = Spectator.objects.filter(verified=True)
+        elif i == 'Crash Course':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_workshop=True)
+    df = pd.DataFrame(list(querystring.values('first_name','last_name','chem_id', 'email','mob_number','is_workshop','is_iit_madras')))
+    #return HttpResponse(df.to_html())
+    #data = [[1,2],[3,4]]
+    #df = pd.DataFrame(data,columns=['A','B'])
+    directory = base_dir+'/static/files'
+    file = 'data.xlsx'
+    # %%
+    if not os.path.exists(directory):
+        print("error")
+    # %%
+    df.to_excel(os.path.join(directory, file))
+    chunk_size = 1024
+    thefile = os.path.join(directory, file)
+    response = StreamingHttpResponse(FileWrapper(open(thefile, 'rb'), chunk_size), content_type=mimetypes.guess_type(thefile)[0])
+    response['Content-Length'] = os.path.getsize(thefile)
+    response['Content-Disposition'] = 'attachment; filename=%s' % file
+    #print('end')
+    return response
 
 
+@login_required
+def return_table(request):
+    if request.method == 'POST':
+        form = workshop_field(request.POST)
+        if form.is_valid():
+            program = form.cleaned_data['program']
+            program = [program]
+            querystring = False
+            #print(program)
+            for i in program:
+                if i=='All':
+                    querystring = Spectator.objects.filter(verified=True)
+                elif i=='Crash Course':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_workshop=True)
+                     # render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
+            return render(request, 'Tabledisplay.html', {'form': form,'d':querystring,'prog':str(program)})
+        else:
+            form = workshop_field()
+            return render(request, 'Tabledisplay.html', {'form': form})
+    form = workshop_field()
+    return render(request, 'Tabledisplay.html', {'form': form})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = loginform(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('secretpage')
+                else:
+                    return HttpResponse('Please provide correct creds')#render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
+            else:
+                form = loginform()
+                return HttpResponse('Please provide correct creds')
+    form = loginform()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 def signup(response):

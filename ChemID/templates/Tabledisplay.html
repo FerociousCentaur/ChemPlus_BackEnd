@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>TableView - Startup</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <form action="" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+    </form>
+  <a class="btn btn-primary" style="float:right" href="{% url 'logout' %}">Logout</a>
+    {% if d %}
+  <h2 class="text-center"><u>Table View</u></h2><br>
+  <a class="btn btn-success" href="{% url 'download' program=prog %}">Export to Excel</a>
+  <table class="table table-dark table-striped">
+    <thead>
+      <tr>
+        <th>CHES ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Contact Number</th>
+        <th>Email</th>
+        <th>Is crash Course</th>
+        <th>IIT Madras</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!-- jinja2 Technique -->
+
+    {% for i in d %}
+      <tr>
+        <th>{{i.chem_id}}</th>
+        <td>{{i.first_name}}</td>
+        <td>{{i.last_name}}</td>
+        <td>{{i.mob_number}}</td>
+        <td>{{i.email}}</td>
+        <td>{{i.is_workshop}}</td>
+        <td>{{i.is_iit_madras}}</td>
+      </tr>
+    {% endfor %}
+    {% endif %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

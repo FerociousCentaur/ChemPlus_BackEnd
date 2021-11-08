@@ -20,6 +20,10 @@ from ChemID import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),
+    path('loginAdmin/', views.login_view, name='login'),
+    path('logoutAdmin/', views.logout_view, name='logout'),
+    path('tableview/', views.return_table, name='secretpage'),
+    path('downloaddata/<str:program>/', views.download_data, name='download'),
     path('checkiitm/', views.checkiitm, name='checkiitm'),
     path('', views.signup),
     path('signupverify/<path:crypt_mail>', views.Verifier),
