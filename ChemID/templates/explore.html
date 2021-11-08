@@ -6,7 +6,7 @@
         <link rel="shortcut icon" type="image/png" href="{% static '/img/ches.png' %}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
-        <title>Payments | IITM</title>
+        <title>Workshop || IITM</title>
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{% static '/node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static '/node_modules/font-awesome/css/font-awesome.min.css' %}">
@@ -38,56 +38,73 @@
     <div class="container">
         <div class="row margin-auto breadcrumbrow">
             <ol class="col-12 breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="ches.iitm.ac.in">Home</a></li>
 <!--                <li class="breadcrumb-item"><a href="../workshops.html">Workshops</a></li>-->
 <!--                <li class="breadcrumb-item active">Python (DS & ML)</li>-->
     
             </ol>
         </div>
-        <div class="row row-content justify-content-center needboxed" height="500px">
+        <div class="row needboxed justify-content-center">
+            <div class="d-flex" style="height:150px;">
+                <img class="img img-responsive" width='40%' src="{% static '/img/download.png' %}"/>
+                <img class="img img-responsive" width='30%' src="{% static '/img/lol.png' %}"/>
+                <img class="img img-responsive" width='30%' src="{% static '/img/download.jpg' %}"/>
+            </div>
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-4"><img class="img img-responsive"  src="{% static '/img/download.png' %}"/></div>-->
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-3" ><img class="img img-responsive"  src="{% static '/img/iitm.jpeg' %}"/></div>-->
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-2"><img class="img img-responsive" src="{% static '/img/download.jpg' %}"/></div>-->
+        </div>
+        <div class="row row-content justify-content-center needboxed" >
             <div class="col-12 col-lg-5 event-image text-center ">
                 <div class="row row-content text-center"><img class="img img-responsive" height="200px" src="{% static '/img/python.png' %}"></div>
-                <div class="row row-content"><h1 style="margin:auto;">PYTHON (DS & ML)</h1></div>
+                <div class="row row-content"><h1 style="margin:auto;">Cracking Tech Interviews</h1></div>
                 <div class="row row-content"><i class="material-icons">engineering</i><h6 class="date">Workshop</h6></div>
                 <div class="row row-content"><i class="material-icons">calendar_today</i><h6 class="date">28-Nov-2021</h6></div>
                 <div class="row row-content"><i class="material-icons">schedule</i><h6 class="date">09:00 to 12:00 & 14:00 to 17:00</h6></div>
                 <div class="row row-content"><i class="material-icons">monetization_on</i><h6 class="date">₹ 499</h6></div>
                 <br>
-                <div class="row row-content justify-content-center"><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdAipxGR8of7T910mqYFZJMkOQcZKf8RGZkPiQZ15YVbfwi-Q/viewform" class="btn btn-lg" style="color:white;"><span>REGISTER</span></a></div>
+                                <div class="row row-content justify-content-center"><a target="_blank" href="{% url 'signup' %}" class="btn btn-lg" style="color:white;"><span>GET CHES ID</span></a></div><br>
+
+                <div class="row row-content justify-content-center"><a target="_blank" href="{% url 'paymentpage' %}" class="btn btn-lg" style="color:white;"><span>REGISTER HERE</span></a></div>
             </div>
             <div class="col">
                 <div class="justify-content-center eventabout">
-                    <h5 style="text-align: center; color: red;">*Registration closes 1hr before the workshop starts*</h5>
-                    <h5 style="text-align: center; color: red;">*Book your seat now - <a href="https://chemplus2021.org/payments/">Click Here</a>*</h5>
-                    <h5 style="text-align: center; color: red;">*50% DISCOUNT - Exclusively for IITM Students*</h5>
+<!--                    <h5 style="text-align: center; color: red;">*Book your seat now - <a href="https://chemplus2021.org/payments/">Click Here</a>*</h5>-->
+<!--                    <h5 style="text-align: center; color: red;">*50% DISCOUNT - Exclusively for IITM Students*</h5>-->
                     
-                    <p style="text-align: center;"> Greetings from ChES, IITM!
-                    <br>
-                        <b>ChES</b> (Chemical Engineering Society) stands as the face of <b>Chemical Engineering Department at IIT Madras</b>. We conduct several workshops, events to help students know about various opportunities available in chemical engineering. We do also conduct workshops on various other fields such as Data science, Machine learning etc and assist students pursue career in field of their interest.
-                        <br>
-                        <br>
-                        This time we bring you an exciting opportunity to learn <b>Coding concepts with python </b> and <b>Data science & machine learning with python by Anand Venkataraman, a crash course before placements riving all the important topic.</b>
-                        <br>
-                        <br>
-                        The workshop will be conducted in <b>two</b> sessions and will be held on <b>28th November</b>.
+                    <h3 style="text-align: center;color:blue">Greetings from <br>Chemical Engineering society<br> IIT Madras!</h3>
+                    <br><p class="text-center" style="text-align: center;">
+                        ChES brings you an exciting opportunity on Cracking Tech interviews – A holistic Hands-on Workshop by Anand Venkataraman, a crash course before placements riving all the important topics.
+
+<br><br>The workshop will be conducted in two sessions and will be held on 28th November, 2021 (Sunday). It will be a live virtual session, through zoom meeting.
                     </p>
-                    <p style="text-align: center;">
+                    <p style="text-align:center;">
                         <B>WORKSHOP OVERVIEW</B><br>
                         <br>
 
                         <b style="color: blue;">Session 1 (9 AM – 12 PM): <br>
                              Concepts and approach for cracking coding interviews.</b> <br>
                         
-                        <b><i>Key Highlights:</i></b> 
-                        In this session you will get to learn important concepts like Data structures, Algorithms which are important to crack coding interviews. Simulated environment will be formed to crack interview sessions. Also, a dedicated hour for secrets, tips and tricks for Interview Prep, resume building and presentation skills.<br>
+                        <b></b>
+                        In this session you will get to learn to apply a problem-solving technique for solving technical questions, in a simulated interview environment. We will take 2 to 3 key concepts in the domain of algorithms and Data structures, device real time interview level questions and solve the questions by applying the specific technique, which be a fool proof method to solve any technical question.
+<br><br>Even if an aspirant practices this technique for one day before the interview, there will be a significant impact for the aspirant, during the interview.
+
+<br>This session is your ultimate weapon for your preparation for coding interviews!!<br><br>
+                        <b><i>Key Take away from the session:</i></b>
                         <ul>
-                            <li>
-                                Timeline of the session - 3 hrs - 0.5 hr Introduction coding guidelines - (1+1) hr - Data Structures & algorithms - 0.5 hr resources Dos and Don'ts
-                            </li>
-                            <li>
-                                Key takeaway: In-depth Problem-solving approach that will be asked in interviews template
-                            </li>
-                        </ul>
+                    <li>
+                        A clear, fool proof technique to solve technical questions
+                    </li>
+                    <li>
+                        A simulated interview environment, where an in-depth implementation of the technique on key questions related to Algorithms and Data structures
+                    </li>
+                    <li>
+                        Tips and tricks for Interview Prep, DOs and DON'Ts, Soft skills tips and resources for further preparation
+                    </li>
+                </ul>
                         
 
                     </p>
@@ -97,17 +114,27 @@
                         <b style="color: blue;">Session 2 (2 PM - 5 PM): <br>
                             Data Science and Machine Learning with Python.</b> <br>
                        
-                       <b><i>Key Highlights:</i></b> 
-                       In this session you will get to learn important skills like visualization, analytics, data mining (with live practice on online kernels) and concepts linked to statistics and mathematics, which would be important to crack your Data Science interviews. Also, a dedicated hour for improving your profile and build your portfolio.<br>
-                       <ul>
-                           <li>
-                            Timeline of the session - 3 hrs - 0.5 hr Introduction - 1 hr - Data Visualisation - 1 hr Machine Learning – Dos and Don’ts Interview focused
-                           </li>
-                           <li>
-                            Key takeaway: Effective Data Interpretation and ML output
-                           </li>
-                       </ul>
-                       <br> 
+                       <b></b>
+                       How about learning to predict stock prices real time, using Python? Sounds exciting? This is exactly what you will be doing in this session.
+
+<br><br>You will perform exploratory data analytics on real-time stock price data, by generating power visualizations like candlesticks and learn engaging storytelling techniques, as a data scientist. This is the most important skill for an entry level data scientist i.e., to be able to convert complex technical details into an interesting story and explain it to the manager. You will learn this here, in the workshop.
+
+<br><br>You will also learn predictive machine learning techniques (Time series analysis), which are generally used to predict stock prices.
+
+<br>You will do all of the above, hands-on, with Python, in live Kaggle kernels.
+
+This session is your ultimate weapon for your preparation for Data Science interviews!!
+                       <br><br>
+                        <b><i>Key Take away from the session:</i></b>
+                        <ul>
+                    <li>
+                        Effective storytelling techniques for Data Scientist with live examples.
+                    </li>
+                    <li>
+In depth analytics of financial data and prediction algorithms, which are generally good to have in your CVs, (especially for Banks and consulting firms)                    </li>
+                    <li>
+ Building your Data Science portfolio, sneak-peek into other Machine Learning algorithms, trends in AI and resources for further preparation                    </li>
+                </ul>
                     </p>
                     <p style="text-align: center;">
                             
@@ -138,18 +165,18 @@
                     </li>
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane fade show active" id="eventcontent">
-                        <h5 style="text-align: center;">ANAND VENKATRAMAN</h5> <br>
-                        <p style=" text-align:justify;">
+                    <div role="tabpanel" class="tab-pane fade show active text-center" id="eventcontent">
+                        <br><h5 style="text-align: center;">ANAND VENKATRAMAN</h5> <br>
+                        <img class="img img-thumbnail" style="height:200px;float:left" src="{% static '/img/anand.jpg' %}"/>
+                        <p>
                             Anand Venkataraman, an alumnus of IIT Madras, from Dept. of Chemical engineering, is a seasoned professional with 14 years of experience in the field of analytics and consulting across Finance and Engineering domains.
 
-                            He holds an International MBA in Finance from United Business Institutes, Belgium. He has rich experience in the domain of Investment banking, product. control and quantitative finance.
-                            
-                            Anand specializes in data science and has a strong understanding of mathematical fundamentals such as linear algebra, multivariable calculus, inferential statistics, neural networks, and algorithms,
-                            
-                            as well as practical data science using languages such as R/Python/MATLAB, tools such as SQL, MySQL, and MS Excel.
-                            
-                            He has developed applications using text mining, natural language processing. deep learning, and machine learning techniques. He has won the silver medal in the Kaggle Global Forecast challenge in 2020.
+<br>He holds an International MBA in Finance from United Business Institutes, Belgium. He has rich experience in the domain of Investment banking, product. control and quantitative finance.
+
+<br>Anand specializes in data science and has a strong understanding of mathematical fundamentals
+such as linear algebra, multivariable calculus, inferential statistics, neural networks, and algorithms, as well as practical data science using languages such as R/Python/MATLAB, tools such as SQL, MySQL, and MS Excel.
+
+<br><br>He has developed applications using text mining, natural language processing, and various other machine learning and deep techniques. He has won the silver medal in the Kaggle Global Forecast challenge in 2020. He is also an avid blogger and written interesting blogs machine learning.
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="eventfaq">
