@@ -39,7 +39,7 @@ def download_data(request, program):
     #return HttpResponse('Hi')
     for i in program:
         querystring = False
-        if i == 'AllNP':
+        if i == 'All':
             querystring = Spectator.objects.filter(verified=True)
         elif i == 'Crash Course':
             if querystring:
