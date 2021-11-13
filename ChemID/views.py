@@ -65,9 +65,25 @@ def download_data(request, program):
     #print('end')
     return response
 
+from django.db.models import Count
 
 @login_required
 def return_table(request):
+    insta = Spectator.objects.filter(source='Instagram')
+    insp = insta.filter(is_workshop=True)
+    other = Spectator.objects.filter(source='Other')
+    op = other.filter(is_workshop=True)
+    linkin = Spectator.objects.filter(source='LinkedIn')
+    lp = linkin.filter(is_workshop=True)
+    d2c = Spectator.objects.filter(source='Dare2Compete')
+    dp = d2c.filter(is_workshop=True)
+    coll = Spectator.objects.filter(source='College')
+    colp = coll.filter(is_workshop=True)
+    frn = Spectator.objects.filter(source='Friends')
+    fp = frn.filter(is_workshop=True)
+
+    lis = [['Instagram',len(insta),len(insp),len(insta)-len(insp)],['LinkedIn',len(linkin),len(lp),len(linkin)-len(lp)],['D2C',len(d2c),len(dp),len(d2c)-len(dp)],['College',len(coll),len(colp),len(coll)-len(colp)],['Friends',len(frn),len(fp),len(frn)-len(fp)],['Other',len(other),len(op),len(other)-len(op)]]
+    print(lis,'hiiiiiiii')
     if request.method == 'POST':
         form = workshop_field(request.POST)
         if form.is_valid():
@@ -84,12 +100,12 @@ def return_table(request):
                     else:
                         querystring = Spectator.objects.filter(verified=True, is_workshop=True)
                      # render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
-            return render(request, 'Tabledisplay.html', {'form': form,'d':querystring,'prog':str(program)})
+            return render(request, 'Tabledisplay.html', {'form': form,'d':querystring,'prog':str(program),'dataset':lis})
         else:
             form = workshop_field()
-            return render(request, 'Tabledisplay.html', {'form': form})
+            return render(request, 'Tabledisplay.html', {'form': form,'dataset':lis})
     form = workshop_field()
-    return render(request, 'Tabledisplay.html', {'form': form})
+    return render(request, 'Tabledisplay.html', {'form': form,'dataset':lis})
 
 def login_view(request):
     if request.method == 'POST':
@@ -136,12 +152,13 @@ def signup(response):
             departmen = form2.cleaned_data['departmen']
             proga = form2.cleaned_data['progra']
             yea = form2.cleaned_data['yea']
+            src = form2.cleaned_data['source']
 
             email_otp = send_otp([email], f_name, 'DNE')
 
 
             Spectator.objects.create(first_name=f_name, last_name=l_name, gender=gen, email=email, mob_number=mob_number, alt_mob_number=alt_phone_number, department=departmen
-                                     ,address=address, zipcode=zipcode, state=stat, college=college, program=proga, year=yea, email_otp=email_otp, verified=False)
+                                     , address=address, zipcode=zipcode, state=stat, college=college, program=proga, year=yea, email_otp=email_otp,source=src, verified=False)
 
             # usr_details = Spectator.objects.filter(email=email)[0]
             # uid = usr_details.chem_id

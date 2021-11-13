@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from .models import Spectator
 from django import forms
 #from localflavor.in_.forms import INStateSelect, INZipCodeField, INPhoneNumberField
-from .choices import college, department, program, year, gender, state
+from .choices import college, department, program, year, gender, state, sources
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -87,6 +87,7 @@ class RegisterForm2(forms.Form):
     departmen = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     progra = forms.ChoiceField(label='', choices=program, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
     yea = forms.ChoiceField(label='', choices=year, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
+    source = forms.ChoiceField(label='', choices=sources, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 
 class OTPVerify(forms.Form):
     email_otp = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])

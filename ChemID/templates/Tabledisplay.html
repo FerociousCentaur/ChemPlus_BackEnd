@@ -8,6 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -18,12 +19,47 @@
     <input type="submit" value="Submit">
     </form>
   <a class="btn btn-primary" style="float:right" href="{% url 'logout' %}">Logout</a>
+
+
+
+
+
+
+  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModalCenter">
+  Source Stats
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="container2"></div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
     {% if d %}
   <h2 class="text-center"><u>Table View</u></h2><br>
   <a class="btn btn-success" href="{% url 'download' program=prog %}">Export to Excel</a>
   <table class="table table-dark table-striped">
     <thead>
       <tr>
+        <th>SL No</th>
         <th>CHES ID</th>
         <th>First Name</th>
         <th>Last Name</th>
@@ -38,7 +74,8 @@
 
     {% for i in d %}
       <tr>
-        <th>{{i.chem_id}}</th>
+        <td>{{ forloop.counter }}</td>
+        <td>{{i.chem_id}}</td>
         <td>{{i.first_name}}</td>
         <td>{{i.last_name}}</td>
         <td>{{i.mob_number}}</td>
@@ -51,6 +88,53 @@
     </tbody>
   </table>
 </div>
+<div id="con"></div>
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script>
+  Highcharts.chart('container2', {
+      chart: {
+          type: 'column'
+      },
+      title: {
+          text: 'Source Analytics'
+      },
+      credits: {
+    enabled: false
+},
+plotOptions: {
+        series: {
+            dataLabels: {
+                enabled: true
+            }
+        }
+    },
+      xAxis: {
+          categories: [
+            {% for i,j,k,l in dataset %}'{{ i }}'{% if not forloop.last %}, {% endif %}{% endfor %}
+          ]
+      },
+      series: [{
+          name: 'Total',
+          data: [
+            {% for i,j,k,l in dataset %}{{ j }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          color: 'blue'
+      }
+      ,{
+          name: 'Paid',
+          data: [
+            {% for i,j,k,l in dataset %}{{ k }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          color: 'green'
+      }, {
+          name: "Didn't Pay",
+          data: [
+            {% for i,j,k,l in dataset %}{{ l }}{% if not forloop.last %}, {% endif %}{% endfor %}
+          ],
+          color: 'red'
+      }]
+  });
+</script>
 
 </body>
 </html>

@@ -464,6 +464,8 @@ college = (('', 'College'), ('Bhoj Reddy Engineering College For Women, Hyderaba
 
 #todo just a separator
 
+sources = (('','-------'),('LinkedIn','LinkedIn'),('Dare2Compete','Dare2Compete'),('Instagram','Instagram'),('Friends','Friends'),('College','College'),('Other','Other'))
+
 department = (('', '--------'), ('Aeronautical Engineering', 'Aeronautical Engineering'),
  ('Applied Mathematics', 'Applied Mathematics'),
  ('Automobile Engineering', 'Automobile Engineering'),
