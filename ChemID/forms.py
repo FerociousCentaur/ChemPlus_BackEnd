@@ -12,12 +12,12 @@ import re
 class workshop_field(forms.Form):
     OPTIONS = (
         ("All", "All(Paid and Non Paid)"),
-        # ("Ansys", "Ansys"),
-        # ("Python", "Python"),
-        # ("SciLab", "SciLab"),
-        #("Matlab", "Matlab"),
-        #("Aspen", "Aspen"),
-        # ("DWSIM", "DWSIM"),
+        ("Ansys", "Ansys"),
+        ("Python", "Python"),
+        ("SciLab", "SciLab"),
+        ("Matlab", "Matlab"),
+        ("Aspen", "Aspen"),
+        ("DWSIM", "DWSIM"),
         ('Crash Course', 'Crash Course')
     )
     program = forms.ChoiceField(label='', choices=OPTIONS, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
@@ -100,18 +100,19 @@ class programRegister(forms.Form):
     chem_id = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
-            #("All events pass", "All events pass"),
-            # ("Ansys", "Ansys"),
-            # ("Python", "Python"),
+            ("All events pass", "All events pass"),
+            ("Ansys", "Ansys"),
+            ("Python", "Python"),
             #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
             ("Aspen", "Aspen"),
-            #("DWSIM", "DWSIM"),
+            ("DWSIM", "DWSIM"),
+            ("MSME", "MSME/Technobytes")
         )
-    # programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
-    #                                     choices=OPTIONS, required=True)
-    workshop_prog = forms.CharField(disabled=True, required=False, max_length=30,
-                             widget=forms.TextInput(attrs={'placeholder': 'Cracking Tech Interview', 'class': "form-control"}))
+    programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
+                                         choices=OPTIONS, required=True)
+    #workshop_prog = forms.CharField(disabled=True, required=False, max_length=30,
+    #                         widget=forms.TextInput(attrs={'placeholder': 'Cracking Tech Interview', 'class': "form-control"}))
     amount = forms.CharField( disabled=True, required=False,max_length=30,widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}))
 # class RegisterForm(forms.ModelForm):
 #

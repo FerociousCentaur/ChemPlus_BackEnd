@@ -52,7 +52,8 @@ class Spectator(models.Model):
     is_matlab = models.BooleanField(default=False)
     is_aspen = models.BooleanField(default=False)
     is_dwsim = models.BooleanField(default=False)
-    is_workshop=models.BooleanField(default=False)
+    is_workshop = models.BooleanField(default=False)
+    is_msme = models.BooleanField(default=False)
     ######
     is_iit_madras=models.BooleanField(default=False)
 

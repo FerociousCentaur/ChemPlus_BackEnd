@@ -264,9 +264,9 @@ def checkiitm(request):
 
         if user and user[0].email==email:
             if user[0].is_iit_madras:
-                reply = settings.AMT_WORKSHOP_IITM
+                reply = 1
             else:
-                reply = settings.AMT_WORKSHOP_NOIITM
+                reply = 2
 
         else:
             reply = -1
@@ -302,7 +302,7 @@ def payment_request(request):
                     trans = Transaction.objects.filter(order_id=oid)
                     if not trans:
                         break
-                choices = ['workshop_prog'] #form.cleaned_data['workshop_prog']
+                choices = form.cleaned_data['programs']
                 print(choices,'choice')
                 if "Python" in choices and "SciLab" in choices:
                     error = "Register either for Python or for SciLab."
@@ -373,6 +373,15 @@ def payment_request(request):
                         #     return render(request, 'paymentspage.html',
                         #                   {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_DWSIM
+                    elif i=='MSME':
+                        if usr_details.is_msme:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.AMT_MSME
 
                     elif i=='workshop_prog':
                         if usr_details.is_workshop:
@@ -598,6 +607,8 @@ def server_to_server(request):
                             usr_details.is_aspen = True
                         elif i == 'DWSIM':
                             usr_details.is_dwsim = True
+                        elif i == 'MSME':
+                            usr_details.is_msme = True
                         elif i== 'workshop_prog':
                             usr_details.is_workshop = True
                     usr_details.save()
