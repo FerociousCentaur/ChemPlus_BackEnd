@@ -100,14 +100,14 @@ class programRegister(forms.Form):
     chem_id = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
-            ("All events pass", "All events pass"),
+            ("All events pass", "All Events Pass"),
             ("Ansys", "Ansys"),
-            ("Python", "Python"),
+            ("Python", "DS & ML"),
             #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
             ("Aspen", "Aspen"),
-            ("DWSIM", "DWSIM"),
-            ("MSME", "MSME/Technobytes")
+            ("DWSIM", "DWSIM")
+            #("MSME", "MSME/Technobytes")
         )
     programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
                                          choices=OPTIONS, required=True)

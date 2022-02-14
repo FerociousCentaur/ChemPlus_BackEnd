@@ -69,7 +69,7 @@ class Spectator(models.Model):
 @receiver(post_save, sender=Spectator)
 def set_person_id(sender, instance, created, **kwargs):
      if created:
-         instance.chem_id = "CHES21%04d" % instance.id
+         instance.chem_id = "CHES22%04d" % instance.id
          instance.is_iit_madras = is_iitm(instance.email)
          instance.save()
 

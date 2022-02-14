@@ -29,7 +29,8 @@ urlpatterns = [
     #path('homepage/', views.homepage,name='home'),
     path('signupverify/<path:crypt_mail>', views.Verifier),
     path('resend/', views.resendOTP, name='resendOTP'),
-    path('payments/', views.payment_request, name='paymentpage'),
+    #path('payments/', views.payment_request, name='paymentpage'),
+    path('payments/', views.comingsoon, name='paymentpage'),
     path('handleResponse/', views.handleResponse, name='handleResponse'),
     path('s2sresponse/', views.server_to_server, name='s2sresponse'),
 

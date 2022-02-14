@@ -31,6 +31,10 @@ from django.contrib.auth.decorators import login_required
 def homepage(request):
     return render(request, 'explore.html')
 
+
+def comingsoon(request):
+    return render(request, 'coming soon.html')
+
 @login_required
 def download_data(request, program):
     program = eval(program)
