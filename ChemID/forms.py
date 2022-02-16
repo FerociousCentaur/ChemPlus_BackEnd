@@ -12,13 +12,13 @@ import re
 class workshop_field(forms.Form):
     OPTIONS = (
         ("All", "All(Paid and Non Paid)"),
+        ("All events pass", "All events pass"),
         ("Ansys", "Ansys"),
         ("Python", "Python"),
         ("SciLab", "SciLab"),
         ("Matlab", "Matlab"),
         ("Aspen", "Aspen"),
-        ("DWSIM", "DWSIM"),
-        ('Crash Course', 'Crash Course')
+        ("DWSIM", "DWSIM")
     )
     program = forms.ChoiceField(label='', choices=OPTIONS, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 

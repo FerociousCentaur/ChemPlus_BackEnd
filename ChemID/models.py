@@ -71,6 +71,12 @@ def set_person_id(sender, instance, created, **kwargs):
      if created:
          instance.chem_id = "CHES22%04d" % instance.id
          instance.is_iit_madras = is_iitm(instance.email)
+         if instance.is_iit_madras:
+             instance.is_all_events = True
+             instance.is_python = True
+             instance.is_ansys = True
+             instance.is_matlab = True
+             instance.is_dwsim = True
          instance.save()
 
 ####

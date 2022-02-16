@@ -45,12 +45,45 @@ def download_data(request, program):
         querystring = False
         if i == 'All':
             querystring = Spectator.objects.filter(verified=True)
-        elif i == 'Crash Course':
+        elif i == 'All events pass':
             if querystring:
-                querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+                querystring += Spectator.objects.filter(verified=True, is_all_events=True)
             else:
-                querystring = Spectator.objects.filter(verified=True, is_workshop=True)
-    df = pd.DataFrame(list(querystring.values('first_name','last_name','chem_id', 'email','mob_number','is_workshop','is_iit_madras')))
+                querystring = Spectator.objects.filter(verified=True, is_all_events=True)
+        elif i == 'Ansys':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_ansys=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_ansys=True)
+        elif i == 'Python':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_python=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_python=True)
+        elif i == 'Matlab':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_matlab=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_matlab=True)
+        elif i == 'Aspen':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_aspen=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_aspen=True)
+        elif i == 'DWSIM':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_dwsim=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_dwsim=True)
+        # if i == 'All':
+        #     querystring = Spectator.objects.filter(verified=True)
+        # elif i == 'Crash Course':
+        #     if querystring:
+        #         querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+        #     else:
+        #         querystring = Spectator.objects.filter(verified=True, is_workshop=True)
+    df = pd.DataFrame(list(querystring.values('first_name','last_name','chem_id', 'email','mob_number','is_all_events','is_ansys',
+                                              'is_python','is_matlab','is_aspen','is_dwsim','is_iit_madras')))
     #return HttpResponse(df.to_html())
     #data = [[1,2],[3,4]]
     #df = pd.DataFrame(data,columns=['A','B'])
@@ -87,7 +120,7 @@ def return_table(request):
     fp = frn.filter(is_workshop=True)
 
     lis = [['Instagram',len(insta),len(insp),len(insta)-len(insp)],['LinkedIn',len(linkin),len(lp),len(linkin)-len(lp)],['D2C',len(d2c),len(dp),len(d2c)-len(dp)],['College',len(coll),len(colp),len(coll)-len(colp)],['Friends',len(frn),len(fp),len(frn)-len(fp)],['Other',len(other),len(op),len(other)-len(op)]]
-    print(lis,'hiiiiiiii')
+    #print(lis,'hiiiiiiii')
     if request.method == 'POST':
         form = workshop_field(request.POST)
         if form.is_valid():
@@ -95,14 +128,47 @@ def return_table(request):
             program = [program]
             querystring = False
             #print(program)
+            # ("All events pass", "All events pass"),
+            # ("Ansys", "Ansys"),
+            # ("Python", "Python"),
+            # ("SciLab", "SciLab"),
+            # ("Matlab", "Matlab"),
+            # ("Aspen", "Aspen"),
+            # ("DWSIM", "DWSIM")
             for i in program:
                 if i=='All':
                     querystring = Spectator.objects.filter(verified=True)
-                elif i=='Crash Course':
+                elif i=='All events pass':
                     if querystring:
-                        querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+                        querystring += Spectator.objects.filter(verified=True, is_all_events=True)
                     else:
-                        querystring = Spectator.objects.filter(verified=True, is_workshop=True)
+                        querystring = Spectator.objects.filter(verified=True, is_all_events=True)
+                elif i == 'Ansys':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_ansys=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_ansys=True)
+                elif i == 'Python':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_python=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_python=True)
+                elif i == 'Matlab':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_matlab=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_matlab=True)
+                elif i == 'Aspen':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_aspen=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_aspen=True)
+                elif i == 'DWSIM':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_dwsim=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_dwsim=True)
+
                      # render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
             return render(request, 'Tabledisplay.html', {'form': form,'d':querystring,'prog':str(program),'dataset':lis})
         else:
