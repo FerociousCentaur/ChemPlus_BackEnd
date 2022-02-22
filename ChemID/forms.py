@@ -105,7 +105,7 @@ class programRegister(forms.Form):
             ("Python", "DS & ML"),
             #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
-            ("Aspen", "Aspen"),
+            #("Aspen", "Aspen"),
             ("DWSIM", "DWSIM")
             #("MSME", "MSME/Technobytes")
         )
