@@ -27,14 +27,14 @@ class loginform(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput())
 
 def validate_field(value):
-    if not re.match(r'^[A-Za-z0-9_ ,.@-]+$', value):
+    if not re.match(r'^[\/A-Za-z0-9_ ,.@-]+$', value):
         raise ValidationError(
             _('%(value)s is not an Valid Input'),
             params={'value': value},
         )
 
 def validate_name(value):
-    if not re.match(r'^[A-Za-z]+$', value):
+    if not re.match(r'^[ A-Za-z]+$', value):
         raise ValidationError(
             _('%(value)s is not an Valid Input'),
             params={'value': value},
