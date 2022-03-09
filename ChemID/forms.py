@@ -17,8 +17,8 @@ class workshop_field(forms.Form):
         ("Python", "Python"),
         ("SciLab", "SciLab"),
         ("Matlab", "Matlab"),
-        #("Aspen", "Aspen"),
-        #("DWSIM", "DWSIM")
+        ("Aspen", "Aspen"),
+        ("DWSIM", "DWSIM")
     )
     program = forms.ChoiceField(label='', choices=OPTIONS, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 
