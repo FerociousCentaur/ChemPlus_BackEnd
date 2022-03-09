@@ -17,8 +17,8 @@ class workshop_field(forms.Form):
         ("Python", "Python"),
         ("SciLab", "SciLab"),
         ("Matlab", "Matlab"),
-        ("Aspen", "Aspen"),
-        ("DWSIM", "DWSIM")
+        #("Aspen", "Aspen"),
+        #("DWSIM", "DWSIM")
     )
     program = forms.ChoiceField(label='', choices=OPTIONS, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
 
@@ -105,8 +105,8 @@ class programRegister(forms.Form):
             ("Python", "DS & ML for Engg."),
             #("SciLab", "SciLab"),
             ("Matlab", "Matlab"),
-            ("Aspen", "Aspen"),
-            ("DWSIM", "DWSIM")
+            #("Aspen", "Aspen"),
+            #("DWSIM", "DWSIM")
             #("MSME", "MSME/Technobytes")
         )
     programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
