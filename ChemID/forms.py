@@ -104,7 +104,7 @@ class programRegister(forms.Form):
             ("Ansys", "Ansys Fluent"),
             ("Python", "DS & ML for Engg."),
             #("SciLab", "SciLab"),
-            ("Matlab", "Matlab"),
+            #("Matlab", "Matlab"),
             #("Aspen", "Aspen"),
             #("DWSIM", "DWSIM")
             #("MSME", "MSME/Technobytes")
