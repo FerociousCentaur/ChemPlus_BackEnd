@@ -102,7 +102,7 @@ class programRegister(forms.Form):
     OPTIONS = (
             ("All events pass", "All Events Pass"),
             ("Ansys", "Ansys Fluent"),
-            ("Python", "DS & ML for Engg."),
+            # ("Python", "DS & ML for Engg."),
             #("SciLab", "SciLab"),
             #("Matlab", "Matlab"),
             #("Aspen", "Aspen"),
