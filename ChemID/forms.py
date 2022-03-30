@@ -33,6 +33,21 @@ def validate_field(value):
             params={'value': value},
         )
 
+def validate_field_email(value):
+    if not re.match(r'^[\/A-Za-z0-9_ ,.@-]+$', value) or not is_iitm(value):
+        raise ValidationError(
+            _('%(value)s is not an Valid Input'),
+            params={'value': value},
+        )
+
+def is_iitm(email):
+    for i in range(0,len(email)):
+        if(email[i]=='@'):
+            if email[i+1:len(email)]=="smail.iitm.ac.in":
+                return True
+            return False
+    return False
+
 def validate_name(value):
     if not re.match(r'^[ A-Za-z]+$', value):
         raise ValidationError(
@@ -64,7 +79,7 @@ class RegisterForm(forms.Form):
 #widget=forms.TextInput(attrs={'class': "form-control"})
 class RegisterForm1(forms.Form):
     email = forms.EmailField(label='',
-                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True, validators=[validate_field])
+                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True, validators=[validate_field_email])
     mob_number = forms.IntegerField(label='', max_value=999999999999999, required=True, widget=forms.NumberInput(attrs={'placeholder': '', 'class': "form-control"}))#forms.CharField(label='',
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
     alt_phone_number = forms.IntegerField(label='', max_value=999999999999999, required=False, widget=forms.NumberInput(attrs={'placeholder': '(Optional)', 'class': "form-control"})) #= forms.ChoiceField(label='',
@@ -82,12 +97,12 @@ class RegisterForm1(forms.Form):
         return email
 class RegisterForm2(forms.Form):
     stat = forms.ChoiceField(label='', choices=state, required=True ,widget=forms.Select(attrs={'class': "custom-select"}))
-    college = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])#forms.CharField(label='',
+    college = forms.CharField(label='' ,initial="IITM", widget=forms.HiddenInput() )#forms.CharField(label='',
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
-    departmen = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
+    departmen = forms.CharField(label='', initial="Chem", widget=forms.HiddenInput())
     progra = forms.ChoiceField(label='', choices=program, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
     yea = forms.ChoiceField(label='', choices=year, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
-    source = forms.ChoiceField(label='', choices=sources, required=True, widget=forms.Select(attrs={'class': "custom-select"}))
+    source = forms.ChoiceField(label='',  initial="LinkedIn",widget=forms.HiddenInput(),choices=sources)
 
 class OTPVerify(forms.Form):
     email_otp = forms.CharField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
@@ -100,8 +115,14 @@ class programRegister(forms.Form):
     chem_id = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
-            ("All events pass", "All Events Pass"),
-            ("Ansys", "Ansys Fluent"),
+            #("All events pass", "All Events Pass"),
+            ("CHES Fee (2020 Batch)", "CHES Fee (2020 Batch)"),
+            ("CHES Fee (2021 Batch)", "CHES Fee (2021 Batch)"),
+            ("T-Shirt", "T-Shirt"),
+            ("T-Shirt (Cusomised)", "T-Shirt (Cusomised)"),
+            ("T-Shirt (Combo)", "T-Shirt (Combo)"),
+            ("T-Shirt (Combo Cusomised)", "T-Shirt (Combo Cusomised)"),
+            #("Ansys", "Ansys Fluent"),
             # ("Python", "DS & ML for Engg."),
             #("SciLab", "SciLab"),
             #("Matlab", "Matlab"),

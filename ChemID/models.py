@@ -56,6 +56,13 @@ class Spectator(models.Model):
     is_msme = models.BooleanField(default=False)
     ######
     is_iit_madras=models.BooleanField(default=False)
+    is_ches2020=models.BooleanField(default=False)
+    is_ches2021=models.BooleanField(default=False)
+    is_tshirt=models.BooleanField(default=False)
+    is_tshirtcus=models.BooleanField(default=False)
+    is_tshirtcombo=models.BooleanField(default=False)
+    is_tshirtcombocus=models.BooleanField(default=False)
+
 
     ##3
     source = models.CharField(max_length=30, null=True, blank=True)
@@ -69,7 +76,7 @@ class Spectator(models.Model):
 @receiver(post_save, sender=Spectator)
 def set_person_id(sender, instance, created, **kwargs):
      if created:
-         instance.chem_id = "CHES22%04d" % instance.id
+         instance.chem_id = (instance.email[:8]).upper()#"CHES22%04d" % instance.id
          instance.save()
 
 ####

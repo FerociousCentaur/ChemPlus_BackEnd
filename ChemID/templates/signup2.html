@@ -145,33 +145,26 @@
       {{form1.email}}
 
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
       <label for="id_mob_number">Number</label>
       {{form1.mob_number}}
 
     </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
       <label for="id_alt_phone_number">Alt. Number</label>
       {{form1.alt_phone_number}}
 
     </div>
-    <div class="col-md-2 mb-3">
-      <label for="id_source">Source</label>
-      {{form2.source}}
-
-    </div>
   </div>
   <div class="form-row">
-    <div class="col-md-5 mb-3">
-      <label for="id_college">College</label>
-      {{form2.college}}
 
-    </div>
-    <div class="col-md-3 mb-3">
-      <label for="id_departmen">Department</label>
-      {{form2.departmen}}
+<!--      {{form2.college}}-->
 
-    </div>
+<!--      {{form2.departmen}}-->
+<!--{{form2.source}}-->
+    <input type="hidden" name="college" id="id_college" value="IITM">
+    <input type="hidden" name="departmen" id="id_departmen" value="CHEM">
+    <input type="hidden" name="source" id="id_source"  value="LinkedIn">
     <div class="col-md-2 mb-3">
       <label for="id_progra">Program</label>
       {{form2.progra}}
@@ -182,22 +175,12 @@
       {{form2.yea}}
 
     </div>
-  </div>
-
-
-
-
-  <div class="form-row">
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
       <label for="id_stat">State</label>
       {{form2.stat}}
 
     </div>
-    <div class="col-md-6 mb-3">
-      <label for="id_address">Address</label>
-      {{form1.address}}
-    </div>
-    <div class="col-md-3 mb-3">
+    <div class="col-md-4 mb-3">
       <label for="id_zipcode">Zip</label>
       {{form1.zipcode}}
 

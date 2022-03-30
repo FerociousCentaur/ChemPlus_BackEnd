@@ -465,6 +465,61 @@ def payment_request(request):
                             amount += settings.AMT_WORKSHOP_IITM
                         else:
                             amount += settings.AMT_WORKSHOP_NOIITM
+                    elif i=='CHES Fee (2020 Batch)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.CHES_FEE2020
+                    elif i=='CHES Fee (2021 Batch)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.CHES_FEE2021
+                    elif i=='T-Shirt':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRT
+                    elif i=='T-Shirt (Combo)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCOMBO
+                    elif i=='T-Shirt (Cusomised)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCUS
+                    elif i=='T-Shirt (Combo Cusomised)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCOMBOCUS
+
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
@@ -673,65 +728,16 @@ def server_to_server(request):
                             usr_details.is_scilab = True
                         elif i == 'Matlab':
                             usr_details.is_matlab = True
-                        elif i == 'Aspen':
-                            usr_details.is_aspen = True
-                        elif i == 'DWSIM':
-                            usr_details.is_dwsim = True
-                        elif i == 'MSME':
-                            usr_details.is_msme = True
-                        elif i== 'workshop_prog':
-                            usr_details.is_workshop = True
-                    usr_details.save()
-                    transac.was_success = True
-                    # sub = ['Payment Successfull', chem_id]
-                    # body = [reg_for, txnid, amnt]
-                    #mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
-                    # typ = 'success'
-                    # msgs = 'Payment Succesfull'
-                elif tstat == '0300' and transac.amount_initiated!=amnt:
-                    transac.status = 'AMOUNT Tampered'
-                    transac.was_success = False
-                    # msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                    # typ='danger'
-                elif tstat != '0300' and tstat == '0002':
-                    transac.status = "WAITING"
-                    # msgs = 'BILL DESK WAITING'
-                    # typ = 'info'
-                elif tstat != '0300' and tstat != '0002':
-                    transac.status = "FAILED"
-                    #reg_for = eval(transac.registered_for)
-                    # msgs = ['Payment Failed',reg_for]
-                    # typ = 'danger'
-                transac.log += str([response])
-                transac.s2s_date = timezone.localtime(timezone.now())
-                transac.save()
-                if transac.status == 'SUCCESS':
-                    chem_id = transac.owner.chem_id
-                    reg_for = eval(transac.registered_for)
-                    usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
-                    sub = ['Payment successful', chem_id]
-                    body = [reg_for, txnid, amnt]
-                    mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
-                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
-            else:
-                pass
-                #return HttpResponse('Bad Request')
-        else:
-            transac = Transaction.objects.filter(order_id=oid)
-            if transac:
-                transac = transac[0]
-                transac.txn_id = txnid
-                transac.status = 'CHECKSUM verification failed'
-                transac.log += str([response])
-                transac.s2s_date = timezone.localtime(timezone.now())
-                transac.save()
-                #msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})
-            else:
-                pass
-                #return HttpResponse('Bad Request')
-
-
-
-
-
+                        elif i == 'CHES Fee (2020 Batch)':
+                            usr_details.is_ches2020 = True
+                        elif i == 'CHES Fee (2021 Batch)':
+                            usr_details.is_ches2021 = True
+                        elif i == 'T-Shirt':
+                            usr_details.is_tshirt = True
+                        elif i == 'T-Shirt (Combo)':
+                            usr_details.is_tshirtcombo = True
+                        elif i == 'T-Shirt (Cusomised)':
+                            usr_details.is_tshirtcus = True
+                        elif i == 'T-Shirt (Combo Cusomised)':
+                            usr_details.is_tshirtcombocus = True
+   
