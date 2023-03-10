@@ -97,3 +97,4 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'{self.owner.chem_id} [{self.order_id}]'
+
