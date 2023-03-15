@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static '/css/index1.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- Latest compiled and minified CSS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
 <!-- Latest compiled and minified JavaScript -->
@@ -42,19 +44,20 @@
 </head>
 <body>
 
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade exampleModalCenter" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Current Offerings</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle"><a type="button" class="btn btn-success" href="https://che.iitm.ac.in/~chemplus/termspolicy.html">Terms & Policies</a></h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body text-center">
-                        <h5 class="text-danger text-center">NOTE : <p>Do not forget to take screenshot of successfull payment and please do fill out the google form displayed on successfull payment. </p></h5>
+                        <h5 class="text-danger text-center">NOTE : <p>Do not forget to take screenshot of successfull payment and please do fill out the google form. </p></h5>
 
           <div class="row text-center">
+<<<<<<< HEAD
 <!--              <div class="col-md-3"></div>-->
             <div class="col-md-6">
           <table class="table table-bordered text-center">
@@ -76,15 +79,43 @@
               <th  colspan="2">Events</th>
               <tr><td>ALL EVENT PASS</td><td>400/-</td></tr>
               <th  colspan="2"><strong class="text-danger">NOTE : </strong>ALL EVENT PASS is must for participants to participate in any event mentioned in <a href="https://che.iitm.ac.in/~chemplus2021/events.html">Events page</a></th>
+=======
+<!--              <div class="col-md-1"></div>-->
+                    <div class="col">
+                  <table class="table table-bordered text-center">
+                      <th  colspan="2">ChES Membership</th>
+<!--                      <tr><td>ASPEN</td><td>4000/-</td></tr>-->
+<!--                      <tr><td>DS & ML FOR ENGG.</td><td>700/-</td></tr>-->
+                      <tr><td>Batch 2020</td><td>1900/-</td></tr>
+                      <tr><td>Batch 2021</td><td>2000/-</td></tr>
+<!--                      <tr><td>MATLAB</td><td>450/-</td></tr>-->
+        <!--              <tr><td>SCILAB</td><td>400/-</td></tr>-->
+<!--                      <tr><td>DWSIM</td><td>250/-</td></tr>-->
+        <!--              <tr><td colspan="2"><b> You can register for either Python or SciLab</b></td></tr>-->
+        <!--                  <tr><td colspan="2"> <b>You can register for either Python or Ansys</b></td></tr>-->
+        <!--              <tr><td colspan="2"> <b>You can register for either Aspen or DWSIM</b></td></tr>-->
+
+                  </table></div>
+<!--              <div class="col"></div>-->
+              <div class="col">
+          <table class="table table-bordered text-center">
+              <th  colspan="2">T Shirts</th>
+              <tr><td>T Shirt (One Piece)</td><td>349/-</td></tr>
+              <tr><td>T Shirt (Combo)</td><td>698/-</td></tr>
+              <tr><td>T Shirt (Customised One Piece)</td><td>(349+25)/-</td></tr>
+              <tr><td>T Shirt (Customised Combo)</td><td>(698+50)/-</td></tr>
+<!--              <th  colspan="2"><strong class="text-danger">NOTE : </strong>ALL EVENT PASS is must for participants to participate in particular events mentioned in <a href="https://che.iitm.ac.in/~chemplus/events.html">Events page</a></th>-->
+>>>>>>> b04554b40f038c01c0470348503f29d5faaa641c
           </table>
 
               </div>
               </div>
           <ul class="text-center" style="list-style-type: none;">
-                <li><strong>Terms and conditions</strong></li>
-                <li>*The amount is strictly non-refundable*</li>
-                <li>*The organizers hold all the rights to change the timings or cancel an event*</li>
-                <li>*Aspen : If we don't get minimum 20 registrations, the event will be cancelled and the entire amount will be refunded.*</li>
+<!--                <li><strong>Terms and conditions</strong></li>-->
+<!--                <li>*The amount is strictly non-refundable*</li>-->
+<!--                <li>*The organizers hold all the rights to change the timings or cancel an event*</li>-->
+<!--                <li>*In case of cancellation/change of timing by more than 24 hours, the amount will be refunded*</li>-->
+<!--                <li>*Aspen : If we don't get minimum 20 registrations, the event will be cancelled and the entire amount will be refunded.*</li>-->
         </ul>
 
 
@@ -100,7 +131,7 @@
 
 
 <div style="white-space:nowrap;float:left;" id="animation">
-    <a id="inmain" style="padding-left:20px;" class="navbar-brand" href="https://ches.iitm.ac.in/chemplus/2021/index.html">
+    <a id="inmain" style="padding-left:20px;" class="navbar-brand" href="https://che.iitm.ac.in/~chemplus">
         <h5 class="ml5">
         <span class="text-wrapper">
           <span class="line line1"></span>
@@ -124,7 +155,7 @@
 
 
 {% ifequal typ "danger" %}
-<div class="row">
+<div class="row mydanger">
   <div class="col-lg-6" style="margin:0 auto;">
 <div class="alert alert-danger alert-dismissible text-center" ><!--    alert-dismissible-->
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -137,7 +168,7 @@
 {% endifequal %}
 
 {% ifequal typ "warning" %}
-<div class="row">
+<div class="row mydanger">
   <div class="col-lg-6" style="margin:0 auto;">
 <div class="alert alert-warning alert-dismissible text-center" ><!--    alert-dismissible-->
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -151,7 +182,7 @@
 
   <div class="col-lg-4 col-sm-8 bordered d-flex justify-content-center" style="text-align:center;margin:0 auto;top: 30px;margin-bottom: 100px;">
 
- <form action="" method="post">
+ <form action="" method="post" name="paymentform">
     {% csrf_token %}
      {% if form.errors %}
   <div class="alert alert-danger"  style="text-align:left">
@@ -173,7 +204,7 @@
 {% endif %}
    <div class="form-row">
         <div class="col-md-4  mb-3">
-            <label class="float-left" for="id_chem_id">ChemPlus ID</label>
+            <label class="float-left" for="id_chem_id">Ches ID</label>
       {{ form.chem_id }}
         </div>
     <div class="col-md-8 mb-3">
@@ -188,6 +219,7 @@
         <div class="col-md-8 mb-3">
             <label class="float-left" for="id_programs">Programs</label>
             {{ form.programs }}
+<!--            {{form.workshop_prog}}-->
         </div>
     <div class="col-md-4 mb-3">
       <label class="float-left" for="id_amount">Payable</label>
@@ -202,13 +234,14 @@
 
      <br>
 
-   <input type="submit"  class="btn btn-primary" value="Pay" id="submit">
+<!--   <input type="submit"  class="btn btn-primary" value="Pay" id="submit">-->
+    <button class="btn btn-primary"  id="payandconfirm" type="button" onclick="myfunc()">Confirm</button>
 
   </form>
+
   </div>
 
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -217,30 +250,124 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"></script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+<!--<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>-->
+
 {% ifequal fs 'fs' %}
 <script type="text/javascript">
     $(window).on('load', function() {
-        $('#exampleModalCenter').modal('show');
+
+        $('.exampleModalCenter').modal('show');
     });
 </script>
 {% endifequal %}
+
 <script type='text/javascript'>
+$("#id_email").keyup(function(){
+    document.getElementById('payandconfirm').innerHTML = "Confirm";
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+  });
+
+$("#id_chem_id").keyup(function(){
+    document.getElementById('payandconfirm').innerHTML = "Confirm";
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+  });
 
 
-var dict = {'All events pass':'400', 'Ansys':'400', 'Python':'600', 'SciLab':'400', 'Matlab':'400', 'Aspen':'4000', 'DWSIM':'100'}
-function myFunction() {
+if ($(".mydanger")[0]){
+    document.getElementById("payandconfirm").className = "btn btn-danger";
+} else {
+    document.getElementById("payandconfirm").className = "btn btn-primary";
+}
 
+
+
+var dict = {'CHES Fee (2020 Batch)':'1900','CHES Fee (2021 Batch)':'2000',"T-Shirt":'349',"T-Shirt (Combo)":'698', "T-Shirt (Cusomised)":'374',"T-Shirt (Combo Cusomised)":'748'};
+var dict2 = {'CHES Fee (2020 Batch)':'1900','CHES Fee (2021 Batch)':'2000',"T-Shirt":'349',"T-Shirt (Combo)":'698', "T-Shirt (Cusomised)":'374',"T-Shirt (Combo Cusomised)":'748'};
+var amount = 0;
+var amount1 = 0;
+//'All events pass':'400', 'Ansys':'450', 'Python':'700', 'SciLab':'400', 'Matlab':'450', 'Aspen':'4000', 'DWSIM':'250',"MSME":'400',
+//'All events pass':'400', 'Ansys':'450', 'Python':'700', 'SciLab':'500', 'Matlab':'450', 'Aspen':'4000', 'DWSIM':'250',"MSME":'500',
+function myFunction(){
+amount = 0;
+amount1 = 0;
 var selected = [];
-var amount =0;
+
+document.getElementById('payandconfirm').innerHTML = "Confirm";
+document.getElementById("payandconfirm").className = "btn btn-primary";
+
+
   for (var option of document.getElementById('id_programs').options) {
     if (option.selected) {
       selected.push(option.value);
       amount+=parseInt(dict[option.value]);
+      amount1+=parseInt(dict2[option.value]);
     }
   }
 <!--  alert(amount);-->
-  document.getElementById('id_amount').value = amount;
+<!--  document.getElementById('id_amount').value = amount;-->
 }
+
+
+
+
+
+function myfunc(){
+console.log('clicked');
+button_html = document.getElementById('payandconfirm').innerHTML;
+if(button_html==="Pay"){
+document.paymentform.submit();
+}
+else if(button_html==="Confirm"){
+chemplus_id = document.getElementById('id_chem_id').value
+email  = document.getElementById('id_email').value
+const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+$.ajax({
+        type: 'POST',
+        url: '{% url 'checkiitm' %}',
+        headers: {'X-CSRFToken': csrftoken},
+        data: {
+                    'email':email,
+                    'chem_id':chemplus_id
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.status) {
+            var reply = data.status;
+            if(reply!=-1){
+            document.getElementById('id_amount').value = reply==1?amount:amount1;
+            document.getElementById('payandconfirm').innerHTML = "Pay";
+            document.getElementById("payandconfirm").className = "btn btn-success";
+            $(".mydanger").remove();
+            }
+            else{
+            var isMobileVersion = document.getElementsByClassName('alert alert-danger alert-dismissible text-center');
+            if (isMobileVersion.length == 0) {
+                error = "Given Ches ID doesn't exist OR the entered Ches ID and email ID don't match with the data stored in Database"
+
+            let html_str = "<div class='row mydanger'><div class='col-lg-6' style='margin:0 auto;'><div class='alert alert-danger alert-dismissible text-center' ><!--    alert-dismissible--><a href='#' class='close' data-dismiss='alert' aria-label='close'>&times;</a><strong>"+error+"</strong><p><a href="+"{% url 'resendOTP' %}"+"> Click Here</a> if you forgot your correct details.</p><br><p><a href="+"{% url 'signup' %}"+"> Click Here</a> to Sign UP</p></div></div></div>";
+            console.log(html_str);
+            $(html_str).insertAfter(".positioning");
+            document.getElementById("payandconfirm").className = "btn btn-danger";
+            }
+            else{
+            document.getElementById("payandconfirm").className = "btn btn-danger";
+            }
+
+
+
+            }
+          }
+        }
+
+      });
+}
+
+
+
+
+}
+
+
 
 </script>
 

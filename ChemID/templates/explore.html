@@ -1,0 +1,307 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <link rel="shortcut icon" type="image/png" href="{% static '/img/ches.png' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+        <title>Workshop || IITM</title>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static '/node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/node_modules/font-awesome/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static '/node_modules/bootstrap-social/bootstrap-social.css' %}">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="{% static '/css/eachevent.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!--        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
+<!--    &lt;!&ndash; Latest compiled and minified CSS &ndash;&gt;-->
+<!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">-->
+
+<!--&lt;!&ndash; Latest compiled and minified JavaScript &ndash;&gt;-->
+<!--<script defer src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>-->
+<!--  <link href='https://fonts.googleapis.com/css?family=Gotu' rel='stylesheet'>-->
+    <style>
+        body {
+  font-family: "Regular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-image: url("{% static '/img/istockphoto-1209886036-170667a.png' %}") !important;
+  /* background-color: #537895;
+  background-image: linear-gradient(315deg, #537895 0%, #09203f 74%); */
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.youtube-video-container {
+    padding-top: 56.25%;
+    height: 0px;
+    position: relative;
+}
+
+.youtube-video {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+    </style>
+    </head>
+    
+    <body>
+    <div class="container">
+        <div class="row margin-auto breadcrumbrow">
+            <ol class="col-12 breadcrumb">
+                <li class="breadcrumb-item"><a href="ches.iitm.ac.in">Home</a></li>
+<!--                <li class="breadcrumb-item"><a href="../workshops.html">Workshops</a></li>-->
+<!--                <li class="breadcrumb-item active">Python (DS & ML)</li>-->
+    
+            </ol>
+        </div>
+        <div class="row needboxed justify-content-center">
+            <div class="d-flex" style="height:150px;">
+                <img class="img img-responsive" width='40%' src="{% static '/img/download.png' %}"/>
+                <img class="img img-responsive" width='30%' src="{% static '/img/lol.png' %}"/>
+                <img class="img img-responsive" width='30%' src="{% static '/img/download.jpg' %}"/>
+            </div>
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-4"><img class="img img-responsive"  src="{% static '/img/download.png' %}"/></div>-->
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-3" ><img class="img img-responsive"  src="{% static '/img/iitm.jpeg' %}"/></div>-->
+<!--            <div class="col-md-1"></div>-->
+<!--            <div class="col-md-2"><img class="img img-responsive" src="{% static '/img/download.jpg' %}"/></div>-->
+        </div>
+        <div class="row row-content justify-content-center needboxed" >
+            <div class="col-12 col-lg-5 event-image text-center ">
+                <div class="row row-content text-center"><img class="img img-responsive" height="200px" src="{% static '/img/python.png' %}"></div>
+                <div class="row row-content"><h1 style="margin:auto;">Cracking Tech Interviews</h1></div>
+                <div class="row row-content"><i class="material-icons">engineering</i><h6 class="date">Workshop</h6></div>
+                <div class="row row-content"><i class="material-icons">calendar_today</i><h6 class="date">28-Nov-2021</h6></div>
+                <div class="row row-content"><i class="material-icons">schedule</i><h6 class="date">09:00 to 12:00 & 14:00 to 17:00</h6></div>
+                <div class="row row-content"><i class="material-icons">monetization_on</i><h6 class="date">₹ 499</h6></div>
+                <br>
+                                <div class="row row-content justify-content-center"><a target="_blank" href="{% url 'signup' %}" class="btn btn-lg" style="color:white;"><span>GET CHES ID</span></a></div><br>
+
+                <div class="row row-content justify-content-center"><a target="_blank" href="{% url 'paymentpage' %}" class="btn btn-lg" style="color:white;"><span>REGISTER HERE</span></a></div>
+            </div>
+            <div class="col">
+                <div class="justify-content-center eventabout">
+                    <h5 style="text-align: center; color: red;">Last Date to Register is 27th Nov 11:59 PM </h5>
+<div class="youtube-video-container">
+                 <iframe class="youtube-video" src="https://www.youtube.com/embed/pf3mPw9BGIw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+<!--                    <h5 style="text-align: center; color: red;">*50% DISCOUNT - Exclusively for IITM Students*</h5>-->
+                    
+                    <h3 style="text-align: center;color:blue">Greetings from <br>Chemical Engineering society<br> IIT Madras!</h3>
+                    <br><p class="text-center" style="text-align: center;">
+                        ChES brings you an exciting opportunity on Cracking Tech interviews – A holistic Hands-on Workshop by Anand Venkataraman, a crash course before placements riving all the important topics.
+
+<br><br>The workshop will be conducted in two sessions and will be held on 28th November, 2021 (Sunday). It will be a live virtual session, through zoom meeting.
+                    </p>
+                    <p style="text-align:center;">
+                        <B>WORKSHOP OVERVIEW</B><br>
+                        <br>
+
+                        <b style="color: blue;">Session 1 (9 AM – 12 PM): <br>
+                             Concepts and approach for cracking coding interviews.</b> <br>
+                        
+                        <b></b>
+                        In this session you will get to learn to apply a problem-solving technique for solving technical questions, in a simulated interview environment. We will take 2 to 3 key concepts in the domain of algorithms and Data structures, device real time interview level questions and solve the questions by applying the specific technique, which be a fool proof method to solve any technical question.
+<br><br>Even if an aspirant practices this technique for one day before the interview, there will be a significant impact for the aspirant, during the interview.
+
+<br>This session is your ultimate weapon for your preparation for coding interviews!!<br><br>
+                        <b><i>Key Take away from the session:</i></b>
+                        <ul>
+                    <li>
+                        A clear, fool proof technique to solve technical questions
+                    </li>
+                    <li>
+                        A simulated interview environment, where an in-depth implementation of the technique on key questions related to Algorithms and Data structures
+                    </li>
+                    <li>
+                        Tips and tricks for Interview Prep, DOs and DON'Ts, Soft skills tips and resources for further preparation
+                    </li>
+                </ul>
+                        
+
+                    </p>
+
+                    <p style="text-align: center;">
+
+                        <b style="color: blue;">Session 2 (2 PM - 5 PM): <br>
+                            Data Science and Machine Learning with Python.</b> <br>
+                       
+                       <b></b>
+                       How about learning to predict stock prices real time, using Python? Sounds exciting? This is exactly what you will be doing in this session.
+
+<br><br>You will perform exploratory data analytics on real-time stock price data, by generating power visualizations like candlesticks and learn engaging storytelling techniques, as a data scientist. This is the most important skill for an entry level data scientist i.e., to be able to convert complex technical details into an interesting story and explain it to the manager. You will learn this here, in the workshop.
+
+<br><br>You will also learn predictive machine learning techniques (Time series analysis), which are generally used to predict stock prices.
+
+<br>You will do all of the above, hands-on, with Python, in live Kaggle kernels.
+
+This session is your ultimate weapon for your preparation for Data Science interviews!!
+                       <br><br>
+                        <b><i>Key Take away from the session:</i></b>
+                        <ul>
+                    <li>
+                        Effective storytelling techniques for Data Scientist with live examples.
+                    </li>
+                    <li>
+In depth analytics of financial data and prediction algorithms, which are generally good to have in your CVs, (especially for Banks and consulting firms)                    </li>
+                    <li>
+ Building your Data Science portfolio, sneak-peek into other Machine Learning algorithms, trends in AI and resources for further preparation                    </li>
+                </ul>
+                    </p>
+                    <p style="text-align: center;">
+                            
+                            <b>We believe that these sessions will be helpful for you to gain essential knowledge in Data science & Machine learning using python..</b>
+                            <br>
+                            <br>
+                            THE WORKSHOP COSTS <b style="color: red;">RS.499 ONLY</b>.
+                            <br>
+                            For IITM Students <strike>RS.499 ONLY</strike> <b style="color: red;">RS.249 ONLY</b>
+                            <br>
+                            <br>
+                            The participants will be provided with certificates. (Note: Attendance at both sessions is required in order to receive the certificate)
+                        </p>
+
+                </div>
+               <ul class="nav nav-tabs justify-content-center eventul">
+                <li class="nav-item eachtab">
+                    <a class="nav-link eachlink active" href="#eventcontent" role="tab"
+                      data-toggle="tab">About the speaker:</a>
+                  </li>
+                    <!-- <li class="nav-item eachtab">
+                      <a class="nav-link eachlink" href="#eventfaq" role="tab"
+                        data-toggle="tab">FAQ</a>
+                    </li> -->
+                    <li class="nav-item eachtab">
+                      <a class="nav-link eachlink" href="#eventcontact" role="tab"
+                        data-toggle="tab">CONTACT</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane fade show active text-center" id="eventcontent">
+                        <br><h5 style="text-align: center;">ANAND VENKATRAMAN</h5> <br>
+                        <img class="img img-thumbnail" style="height:200px;float:left" src="{% static '/img/anand.jpg' %}"/>
+                        <p>
+                            Anand Venkataraman, an alumnus of IIT Madras, from Dept. of Chemical engineering, is a seasoned professional with 14 years of experience in the field of analytics and consulting across Finance and Engineering domains.
+
+<br>He holds an International MBA in Finance from United Business Institutes, Belgium. He has rich experience in the domain of Investment banking, product. control and quantitative finance.
+
+<br>Anand specializes in data science and has a strong understanding of mathematical fundamentals
+such as linear algebra, multivariable calculus, inferential statistics, neural networks, and algorithms, as well as practical data science using languages such as R/Python/MATLAB, tools such as SQL, MySQL, and MS Excel.
+
+<br><br>He has developed applications using text mining, natural language processing, and various other machine learning and deep techniques. He has won the silver medal in the Kaggle Global Forecast challenge in 2020. He is also an avid blogger and written interesting blogs machine learning.
+                        </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane fade" id="eventfaq">
+                        <div class="row row-content">
+                            <div class="col-12">
+                                <div class="card">
+                                    <a  data-toggle="collapse" data-target="#q1">
+                                    <div class="card-header" role="tab" id="q1head">
+                                    <h6 class="mb-0">
+                                        <B>Updated soon</B>
+                                    </h6>
+                                    </div>
+                                   </a>
+                                    <div class="collapse show" id="q1" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <p class="d-sm-block"></p></div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <a class="collapsed" data-toggle="collapse" data-target="#q2">
+                                    <div class="card-header" role="tab" id="q2head">
+                                    <h6 class="mb-0">
+                                        <B>Updated soon</B>
+                                    </h6>
+                                    </a>
+                                    </div>
+                                    <div class="collapse" id="q2" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <p class="d-sm-block"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <a class="collapsed" data-toggle="collapse" data-target="#q3">
+                                    <div class="card-header" role="tab" id="q3head">
+                                    <h6 class="mb-0">
+                                        <B>Updated soon</B>
+                                    </h6>
+                                    </a>
+                                    </div>
+                                    <div class="collapse" id="q3" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <p class="d-sm-block"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                       </div>               </div>
+                    <div role="tabpanel" class="tab-pane fade text-center" id="eventcontact"><br>
+                        <p style="text-align: center;"><b>For Registrations and Queries, contact:</b></p>
+                        <div class="row">
+                            <div class="col">
+                                <img src="{% static '/img/somya.jpeg' %}" style="margin-top:10px" height="200px">
+                                <div class="caption ">
+                                    <div class="name">Somya Verma</div>
+                                    <div class="socials">
+                                        <h5 class="h6"><a href="tel:+91 8999600443"><i class="fa fa-phone fa-lg"></i></a>         +91 8999600443</h5>
+                                        <h5 class="h6"><a href="mailto:ch19b028@smail.iitm.ac.in"><i class="fa fa-envelope fa-lg"></i></a>            ch19b028@smail.iitm.ac.in</h5>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <img src="{% static '/img/hari_edited.jpeg' %}" style="margin-top:10px" height="200px">
+                                <div class="caption ">
+                                    <div class="name">Hari Karthik</div>
+                                    <div class="socials">
+                                        <h5 class="h6"><a href="tel:+91 9600493238"><i class="fa fa-phone fa-lg"></i></a>         +91 8999600443</h5>
+<!--                                        <h5 class="h6"><a href="mailto:ch19b028@smail.iitm.ac.in"><i class="fa fa-envelope fa-lg"></i></a>            ch19b028@smail.iitm.ac.in</h5>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <img src="{% static '/img/mahitha.jpeg' %}" style="margin-top:10px" height="200px">
+                                <div class="caption ">
+                                    <div class="name">S Mahitha</div>
+                                    <div class="socials">
+                                        <h5 class="h6"><a href="tel:+91 7981869970"><i class="fa fa-phone fa-lg"></i></a>         +91 8999600443</h5>
+<!--                                        <h5 class="h6"><a href="mailto:ch19b028@smail.iitm.ac.in"><i class="fa fa-envelope fa-lg"></i></a>            ch19b028@smail.iitm.ac.in</h5>-->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <img src="{% static '/img/Shasank.jpg' %}" style="margin-top:10px" height="200px">
+                                <div class="caption ">
+                                    <div class="name">Shasank</div>
+                                    <div class="socials">
+                                        <h5 class="h6"><a href="tel:+91 9840180923"><i class="fa fa-phone fa-lg"></i></a>         +91 8999600443</h5>
+<!--                                        <h5 class="h6"><a href="mailto:ch19b028@smail.iitm.ac.in"><i class="fa fa-envelope fa-lg"></i></a>            ch19b028@smail.iitm.ac.in</h5>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    <div class="text-center text-danger"><small><b>Amount will not be refuned after registration.</b></small></div>
+
+
+            </div>
+        </div>
+    </div>
+       <script src="{% static '/node_modules/jquery/dist/jquery.slim.min.js' %}"></script>
+       <script src="{% static '/node_modules/popper.js/dist/umd/popper.min.js' %}"></script>
+       <script src="{% static '/node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    </body>
+    <!-- ====================== END OF JS CODE FOR BACKGROUND ===================================================-->
+    
+    </html>
+    

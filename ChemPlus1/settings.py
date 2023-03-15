@@ -25,7 +25,6 @@ SECRET_KEY = 'b&!hsphvhj9emup*-a6-0knfe^t6rl8c$)+x%iazvcyc^--&mj'
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -52,6 +51,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ChemPlus1.urls'
+
+CSRF_COOKIE_SECURE = True
 
 TEMPLATES = [
     {
@@ -116,6 +117,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'login'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -124,10 +127,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+<<<<<<< HEAD
     #'/home/ubuntu/env/lib/python3.8/site-packages/django/contrib/admin/static'
+=======
+    '/home/ubuntu/venv/lib/python3.8/site-packages/django/contrib/admin/static'
+>>>>>>> b04554b40f038c01c0470348503f29d5faaa641c
 ]
 #STATIC_ROOT = BASE_DIR + "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
 
 try:
     from .local_settings import *

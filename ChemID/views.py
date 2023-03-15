@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import login,authenticate
-from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail, programRegister
+from .forms import RegisterForm, RegisterForm1, RegisterForm2, OTPVerify, reaskEmail, programRegister, loginform, workshop_field
 from django.conf import settings
 from django.core.mail import send_mail
 from .models import Spectator, Transaction
@@ -16,13 +16,189 @@ from django.views.decorators.csrf import csrf_exempt
 import uuid
 from .billdesk.checksum import Checksum
 from .billdesk.gen_message import GetMessage
-
-
+from django.http import JsonResponse
+from django.contrib.auth import login, authenticate, logout
+import pandas as pd
+import os
+import mimetypes
+from wsgiref.util import FileWrapper
+from django.http import StreamingHttpResponse
 import threading
 # Create your views here.
 
+from django.contrib.auth.decorators import login_required
+
+def homepage(request):
+    return render(request, 'explore.html')
 
 
+def comingsoon(request):
+    return render(request, 'coming soon.html')
+
+@login_required
+def download_data(request, program):
+    program = eval(program)
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    print(base_dir)
+    #return HttpResponse('Hi')
+    for i in program:
+        querystring = False
+        if i == 'All':
+            querystring = Spectator.objects.filter(verified=True)
+        elif i == 'All events pass':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_all_events=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_all_events=True)
+        elif i == 'Ansys':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_ansys=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_ansys=True)
+        elif i == 'Python':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_python=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_python=True)
+        elif i == 'Matlab':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_matlab=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_matlab=True)
+        elif i == 'Aspen':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_aspen=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_aspen=True)
+        elif i == 'DWSIM':
+            if querystring:
+                querystring += Spectator.objects.filter(verified=True, is_dwsim=True)
+            else:
+                querystring = Spectator.objects.filter(verified=True, is_dwsim=True)
+        # if i == 'All':
+        #     querystring = Spectator.objects.filter(verified=True)
+        # elif i == 'Crash Course':
+        #     if querystring:
+        #         querystring += Spectator.objects.filter(verified=True, is_workshop=True)
+        #     else:
+        #         querystring = Spectator.objects.filter(verified=True, is_workshop=True)
+    df = pd.DataFrame(list(querystring.values('first_name','last_name','chem_id', 'email','mob_number','is_all_events','is_ansys',
+                                              'is_python','is_matlab','is_aspen','is_dwsim','is_iit_madras')))
+    #return HttpResponse(df.to_html())
+    #data = [[1,2],[3,4]]
+    #df = pd.DataFrame(data,columns=['A','B'])
+    directory = base_dir+'/static/files'
+    file = 'data.xlsx'
+    # %%
+    if not os.path.exists(directory):
+        print("error")
+    # %%
+    df.to_excel(os.path.join(directory, file))
+    chunk_size = 1024
+    thefile = os.path.join(directory, file)
+    response = StreamingHttpResponse(FileWrapper(open(thefile, 'rb'), chunk_size), content_type=mimetypes.guess_type(thefile)[0])
+    response['Content-Length'] = os.path.getsize(thefile)
+    response['Content-Disposition'] = 'attachment; filename=%s' % file
+    #print('end')
+    return response
+
+from django.db.models import Count
+
+@login_required
+def return_table(request):
+    insta = Spectator.objects.filter(source='Instagram')
+    insp = insta.filter(is_workshop=True)
+    other = Spectator.objects.filter(source='Other')
+    op = other.filter(is_workshop=True)
+    linkin = Spectator.objects.filter(source='LinkedIn')
+    lp = linkin.filter(is_workshop=True)
+    d2c = Spectator.objects.filter(source='Dare2Compete')
+    dp = d2c.filter(is_workshop=True)
+    coll = Spectator.objects.filter(source='College')
+    colp = coll.filter(is_workshop=True)
+    frn = Spectator.objects.filter(source='Friends')
+    fp = frn.filter(is_workshop=True)
+
+    lis = [['Instagram',len(insta),len(insp),len(insta)-len(insp)],['LinkedIn',len(linkin),len(lp),len(linkin)-len(lp)],['D2C',len(d2c),len(dp),len(d2c)-len(dp)],['College',len(coll),len(colp),len(coll)-len(colp)],['Friends',len(frn),len(fp),len(frn)-len(fp)],['Other',len(other),len(op),len(other)-len(op)]]
+    #print(lis,'hiiiiiiii')
+    if request.method == 'POST':
+        form = workshop_field(request.POST)
+        if form.is_valid():
+            program = form.cleaned_data['program']
+            program = [program]
+            querystring = False
+            #print(program)
+            # ("All events pass", "All events pass"),
+            # ("Ansys", "Ansys"),
+            # ("Python", "Python"),
+            # ("SciLab", "SciLab"),
+            # ("Matlab", "Matlab"),
+            # ("Aspen", "Aspen"),
+            # ("DWSIM", "DWSIM")
+            for i in program:
+                if i=='All':
+                    querystring = Spectator.objects.filter(verified=True)
+                elif i=='All events pass':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_all_events=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_all_events=True)
+                elif i == 'Ansys':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_ansys=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_ansys=True)
+                elif i == 'Python':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_python=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_python=True)
+                elif i == 'Matlab':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_matlab=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_matlab=True)
+                elif i == 'Aspen':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_aspen=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_aspen=True)
+                elif i == 'DWSIM':
+                    if querystring:
+                        querystring += Spectator.objects.filter(verified=True, is_dwsim=True)
+                    else:
+                        querystring = Spectator.objects.filter(verified=True, is_dwsim=True)
+
+                     # render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
+            return render(request, 'Tabledisplay.html', {'form': form,'d':querystring,'prog':str(program),'dataset':lis})
+        else:
+            form = workshop_field()
+            return render(request, 'Tabledisplay.html', {'form': form,'dataset':lis})
+    form = workshop_field()
+    return render(request, 'Tabledisplay.html', {'form': form,'dataset':lis})
+
+def login_view(request):
+    if request.method == 'POST':
+        form = loginform(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    return redirect('secretpage')
+                else:
+                    return HttpResponse('Please provide correct creds')#render(request, 'signup.html', {'form': form, 'msg':'U need to verify ur email'})
+            else:
+                form = loginform()
+                return HttpResponse('Please provide correct creds')
+    form = loginform()
+    return render(request, 'login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 def signup(response):
@@ -46,12 +222,13 @@ def signup(response):
             departmen = form2.cleaned_data['departmen']
             proga = form2.cleaned_data['progra']
             yea = form2.cleaned_data['yea']
+            src = form2.cleaned_data['source']
 
             email_otp = send_otp([email], f_name, 'DNE')
 
 
             Spectator.objects.create(first_name=f_name, last_name=l_name, gender=gen, email=email, mob_number=mob_number, alt_mob_number=alt_phone_number, department=departmen
-                                     ,address=address, zipcode=zipcode, state=stat, college=college, program=proga, year=yea, email_otp=email_otp, verified=False)
+                                     , address=address, zipcode=zipcode, state=stat, college=college, program=proga, year=yea, email_otp=email_otp,source=src, verified=False)
 
             # usr_details = Spectator.objects.filter(email=email)[0]
             # uid = usr_details.chem_id
@@ -94,10 +271,10 @@ def Verifier(request,crypt_mail):
             if e_otp == f"{email_otp:06d}":
                 usr_details.verified = True
                 usr_details.save()
-                error = 'Successfully Verified!!! You will receive your CHEM+ ID on your Email ID'
+                error = 'Successfully Verified!!! You will receive your CHES ID on your Email ID'
                 uid = usr_details.chem_id
                 name = usr_details.first_name
-                subject = ['ChemPlus ID', uid]
+                subject = ['Ches ID', uid]
                 recipient_list = [email]
                 usr_name = usr_details.first_name+' '+usr_details.last_name
                 college = usr_details.college
@@ -131,19 +308,45 @@ def resendOTP(request):
             elif usr_details.verified:
                 uid = usr_details.chem_id
                 name = usr_details.first_name
-                subject = ['ChemPlus ID', uid]
+                subject = ['Ches ID', uid]
                 recipient_list = [email]
                 usr_name = usr_details.first_name + ' '+usr_details.last_name
                 college = usr_details.college
                 number = usr_details.mob_number
                 message = [usr_name, email, college, number]
                 mailer(recipient_list, name, 'mail_template.html', subject, message)
-                error = "ChemPlus ID has been sent to your mail ID"
+                error = "Ches ID has been sent to your mail ID"
                 return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'success'})
     else:
         form = reaskEmail()
     error = 'We will try our best to help you out! Enter the mail ID with which you registered'
     return render(request, 'resend2.html', {'error': error, 'form': form, 'typ': 'primary'})
+
+
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+def checkiitm(request):
+    if request.is_ajax and request.method == "POST":
+        email = request.POST.get('email', None)
+        cid = request.POST.get('chem_id', None)
+        user = Spectator.objects.filter(chem_id=cid)
+
+        if user and user[0].email==email:
+            if user[0].is_iit_madras:
+                reply = 1
+            else:
+                reply = 2
+
+        else:
+            reply = -1
+        print(len(user))
+
+        data = {
+            'status': reply
+        }
+        return JsonResponse(data)
+
 
 
 def get_order_id(chem_id):
@@ -170,6 +373,7 @@ def payment_request(request):
                     if not trans:
                         break
                 choices = form.cleaned_data['programs']
+                print(choices,'choice')
                 if "Python" in choices and "SciLab" in choices:
                     error = "Register either for Python or for SciLab."
                     return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
@@ -239,6 +443,83 @@ def payment_request(request):
                         #     return render(request, 'paymentspage.html',
                         #                   {'error': error, 'form': form, 'typ': 'warning'})
                         amount += settings.AMT_DWSIM
+                    elif i=='MSME':
+                        if usr_details.is_msme:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.AMT_MSME
+
+                    elif i=='workshop_prog':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        if usr_details.is_iit_madras:
+                            amount += settings.AMT_WORKSHOP_IITM
+                        else:
+                            amount += settings.AMT_WORKSHOP_NOIITM
+                    elif i=='CHES Fee (2020 Batch)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.CHES_FEE2020
+                    elif i=='CHES Fee (2021 Batch)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.CHES_FEE2021
+                    elif i=='T-Shirt':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRT
+                    elif i=='T-Shirt (Combo)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCOMBO
+                    elif i=='T-Shirt (Cusomised)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCUS
+                    elif i=='T-Shirt (Combo Cusomised)':
+                        if usr_details.is_workshop:
+                            error = f"You have already registered for {i}. We don't charge twice"
+                            return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'warning'})
+                        # if usr_details.is_aspen:
+                        #     error = f"You have already registered for Aspen and you can register either for DWSIM or Aspen.Contact us if you have any issues"
+                        #     return render(request, 'paymentspage.html',
+                        #                   {'error': error, 'form': form, 'typ': 'warning'})
+                        amount += settings.TSHIRTCOMBOCUS
+
                 #print(amount)
                 msg = GetMessage().message(oid, amount, chem_id, mail, fname, mnumber)
                 #print(msg)
@@ -252,7 +533,7 @@ def payment_request(request):
                 #print(resp.text)
             else:
                 #print('not found')
-                error = "Given Chemplus ID doesn't exist OR the entered Chemplus ID and email ID don't match with the data stored in Database"
+                error = "Given Ches ID doesn't exist OR the entered Ches ID and email ID don't match with the data stored in Database"
                 return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'danger'})
         error = ''
         return render(request, 'paymentspage.html', {'error': error, 'form': form, 'typ': 'empty'})
@@ -447,61 +728,16 @@ def server_to_server(request):
                             usr_details.is_scilab = True
                         elif i == 'Matlab':
                             usr_details.is_matlab = True
-                        elif i == 'Aspen':
-                            usr_details.is_aspen = True
-                        elif i == 'DWSIM':
-                            usr_details.is_dwsim = True
-                    usr_details.save()
-                    transac.was_success = True
-                    # sub = ['Payment Successfull', chem_id]
-                    # body = [reg_for, txnid, amnt]
-                    #mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
-                    # typ = 'success'
-                    # msgs = 'Payment Succesfull'
-                elif tstat == '0300' and transac.amount_initiated!=amnt:
-                    transac.status = 'AMOUNT Tampered'
-                    transac.was_success = False
-                    # msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                    # typ='danger'
-                elif tstat != '0300' and tstat == '0002':
-                    transac.status = "WAITING"
-                    # msgs = 'BILL DESK WAITING'
-                    # typ = 'info'
-                elif tstat != '0300' and tstat != '0002':
-                    transac.status = "FAILED"
-                    #reg_for = eval(transac.registered_for)
-                    # msgs = ['Payment Failed',reg_for]
-                    # typ = 'danger'
-                transac.log += str([response])
-                transac.s2s_date = timezone.localtime(timezone.now())
-                transac.save()
-                if transac.status == 'SUCCESS':
-                    chem_id = transac.owner.chem_id
-                    reg_for = eval(transac.registered_for)
-                    usr_details = Spectator.objects.filter(chem_id=chem_id)[0]
-                    sub = ['Payment successful', chem_id]
-                    body = [reg_for, txnid, amnt]
-                    mailer([usr_details.email], usr_details.first_name, 'Paymentmail.html', sub, body)
-                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ':typ, 'txnid':txnid})
-            else:
-                pass
-                #return HttpResponse('Bad Request')
-        else:
-            transac = Transaction.objects.filter(order_id=oid)
-            if transac:
-                transac = transac[0]
-                transac.txn_id = txnid
-                transac.status = 'CHECKSUM verification failed'
-                transac.log += str([response])
-                transac.s2s_date = timezone.localtime(timezone.now())
-                transac.save()
-                #msgs = 'Payment declined! Looked liked someone tried tampering your payment'
-                #return render(request, 'afterPayment.html', {'error': [msgs], 'typ': 'danger', 'txnid':txnid})
-            else:
-                pass
-                #return HttpResponse('Bad Request')
-
-
-
-
-
+                        elif i == 'CHES Fee (2020 Batch)':
+                            usr_details.is_ches2020 = True
+                        elif i == 'CHES Fee (2021 Batch)':
+                            usr_details.is_ches2021 = True
+                        elif i == 'T-Shirt':
+                            usr_details.is_tshirt = True
+                        elif i == 'T-Shirt (Combo)':
+                            usr_details.is_tshirtcombo = True
+                        elif i == 'T-Shirt (Cusomised)':
+                            usr_details.is_tshirtcus = True
+                        elif i == 'T-Shirt (Combo Cusomised)':
+                            usr_details.is_tshirtcombocus = True
+   
