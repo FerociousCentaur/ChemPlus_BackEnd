@@ -116,19 +116,19 @@ class programRegister(forms.Form):
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
             #("All events pass", "All Events Pass"),
-            ("CHES Fee (2020 Batch)", "CHES Fee (2020 Batch)"),
-            ("CHES Fee (2021 Batch)", "CHES Fee (2021 Batch)"),
-            ("T-Shirt", "T-Shirt"),
-            ("T-Shirt (Cusomised)", "T-Shirt (Cusomised)"),
-            ("T-Shirt (Combo)", "T-Shirt (Combo)"),
-            ("T-Shirt (Combo Cusomised)", "T-Shirt (Combo Cusomised)"),
-            #("Ansys", "Ansys Fluent"),
-            # ("Python", "DS & ML for Engg."),
-            #("SciLab", "SciLab"),
-            #("Matlab", "Matlab"),
-            #("Aspen", "Aspen"),
-            #("DWSIM", "DWSIM")
-            #("MSME", "MSME/Technobytes")
+            # ("CHES Fee (2020 Batch)", "CHES Fee (2020 Batch)"),
+            # ("CHES Fee (2021 Batch)", "CHES Fee (2021 Batch)"),
+            # ("T-Shirt", "T-Shirt"),
+            # ("T-Shirt (Cusomised)", "T-Shirt (Cusomised)"),
+            # ("T-Shirt (Combo)", "T-Shirt (Combo)"),
+            # ("T-Shirt (Combo Cusomised)", "T-Shirt (Combo Cusomised)"),
+            ("Ansys", "Ansys"),
+            ("Python", "DS & ML for Engg."),
+            ("SciLab", "SciLab"),
+            ("Matlab", "Matlab"),
+            ("Aspen", "Aspen"),
+            ("DWSIM", "DWSIM"),
+            ("MSME", "MSME/Technobytes")
         )
     programs = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':"selectpicker form-control",'data-selected-text-format':"count", 'OnChange':'myFunction();'}),
                                          choices=OPTIONS, required=True)

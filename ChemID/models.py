@@ -10,7 +10,7 @@ import datetime
 from .choices import college, department, program, year, gender
 # Create your models here.
 def sid(id):
-    return "CHPS21%04d" % id
+    return "CHPS23%04d" % id
 
 # class EventManager(models.Manager):
 #
@@ -76,7 +76,7 @@ class Spectator(models.Model):
 @receiver(post_save, sender=Spectator)
 def set_person_id(sender, instance, created, **kwargs):
      if created:
-         instance.chem_id = (instance.email[:8]).upper()#"CHES22%04d" % instance.id
+         instance.chem_id = "CHES23%04d" % instance.id #(instance.email[:8]).upper()#
          instance.save()
 
 ####
