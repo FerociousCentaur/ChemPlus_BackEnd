@@ -127,7 +127,7 @@ LOGIN_REDIRECT_URL = 'login'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    '/home/ubuntu/venv/lib/python3.8/site-packages/django/contrib/admin/static'
+    '/home/ubuntu/venv/lib/python3.10/site-packages/django/contrib/admin/static'
 ]
 #STATIC_ROOT = BASE_DIR + "/staticfiles/"
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
