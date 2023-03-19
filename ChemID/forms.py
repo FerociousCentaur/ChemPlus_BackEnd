@@ -79,7 +79,7 @@ class RegisterForm(forms.Form):
 #widget=forms.TextInput(attrs={'class': "form-control"})
 class RegisterForm1(forms.Form):
     email = forms.EmailField(label='',
-                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True, validators=[validate_field_email])
+                    widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), required=True)
     mob_number = forms.IntegerField(label='', max_value=999999999999999, required=True, widget=forms.NumberInput(attrs={'placeholder': '', 'class': "form-control"}))#forms.CharField(label='',
     #                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}), required=True)
     alt_phone_number = forms.IntegerField(label='', max_value=999999999999999, required=False, widget=forms.NumberInput(attrs={'placeholder': '(Optional)', 'class': "form-control"})) #= forms.ChoiceField(label='',
