@@ -34,7 +34,7 @@ def validate_field(value):
         )
 
 def validate_field_email(value):
-    if not re.match(r'^[\/A-Za-z0-9_ ,.@-]+$', value) or not is_iitm(value):
+    if not re.match(r'^[\/A-Za-z0-9_ ,.@-]+$', value):
         raise ValidationError(
             _('%(value)s is not an Valid Input'),
             params={'value': value},
