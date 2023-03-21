@@ -740,4 +740,9 @@ def server_to_server(request):
                             usr_details.is_tshirtcus = True
                         elif i == 'T-Shirt (Combo Cusomised)':
                             usr_details.is_tshirtcombocus = True
+                    usr_details.save()
+                    transac.was_success = True
+                transac.log += str([response])
+                transac.s2s_date = timezone.localtime(timezone.now())
+                transac.save()
    

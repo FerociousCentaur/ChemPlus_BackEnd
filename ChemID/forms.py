@@ -115,7 +115,7 @@ class programRegister(forms.Form):
     chem_id = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     email = forms.EmailField(label='', required=True, widget=forms.TextInput(attrs={'placeholder': '', 'class': "form-control"}), validators=[validate_field])
     OPTIONS = (
-            ("All events pass", "All Events Pass"),
+            ("All events pass", "All events pass"),
             # # ("CHES Fee (2020 Batch)", "CHES Fee (2020 Batch)"),
             # # ("CHES Fee (2021 Batch)", "CHES Fee (2021 Batch)"),
             # # ("T-Shirt", "T-Shirt"),
